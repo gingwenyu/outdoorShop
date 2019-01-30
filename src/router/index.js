@@ -3,7 +3,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 
 //自訂的分頁元件
-import HelloWorld from '@/components/HelloWorld';
+//import HelloWorld from '@/components/HelloWorld';
 import Dashboard from '@/components/Dashboard';
 import Login from '@/components/pages/Login';
 import Products from '@/components/pages/Products';
@@ -16,12 +16,12 @@ export default new VueRouter({
       path:'*',
       redirect:'login',
     },
-    {
-      path:'/',
-      name:'HelloWorld',
-      component: HelloWorld,
-      meta: { requiresAuth: true },
-    },
+   // {
+   //   path:'/',
+   //   name:'HelloWorld',
+   //   component: HelloWorld,
+   //   meta: { requiresAuth: true },
+   // },
     {
       path: '/login',
       name: 'Login',
