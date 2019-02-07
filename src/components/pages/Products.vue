@@ -250,31 +250,33 @@ export default{
         //vm.products=response.data.products;
       });
     },
-  },  
-  uploadFile(){
-    console.log(this);
-    const uploadedFile=this.$refs.files.files[0];
-    const vm=this;
-    const formData=new FormData();
-    formData.append('file-to-upload',uploadedFile);
-    const url=`${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/upload`;
-    vm.status.fileUploading=true;
-    this.$http.post(url,formData,{
-      headers:{
-        'Content-Type':'multipart/form-data'
-      },
-    }).then((response)=>{
-      console.log(response.data);
-      vm.status.fileUploading=false;
-      if(response.data.success){
-        //vm.tempProduct.imageUrl=response.data.imageUrl;
-        //console.log(vm.tempProduct);
-        vm.$set(vm.tempProduct,'imageUrl',response.data.imageUrl);
-      }else{
-        this.$bus.$emit('message:push','response.data.message','danger');
-      }
-    });
-  },
+    uploadFile(){
+      console.log(this);
+      const uploadedFile=this.$refs.files.files[0];
+      const vm=this;
+      const formData=new FormData();
+      formData.append('file-to-upload',uploadedFile);
+      const url=`${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/upload`;
+      vm.status.fileUploading=true;
+      this.$http.post(url,formData,{
+        headers:{
+          'Content-Type':'multipart/form-data'
+        },
+      }).then((response)=>{
+        console.log(response.data);
+        vm.status.fileUploading=false;
+        if(response.data.success){
+          //vm.tempProduct.imageUrl=response.data.imageUrl;
+          //console.log(vm.tempProduct);
+          vm.$set(vm.tempProduct,'imageUrl',response.data.imageUrl);
+        }else{
+          this.$bus.$emit('message:push','response.data.message','danger');
+        }
+      });
+    },
+
+   },  
+  
   created(){
     this.getProducts();
     
