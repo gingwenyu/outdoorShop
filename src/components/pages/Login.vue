@@ -34,6 +34,10 @@ export default {
       //'https://vue-course-api.hexschool.io/';    
       // API伺服器路徑
       // 所申請的APIPath
+      //vue-axios
+      //this.$http.get(api).then((response) => {
+      //  console.log(response.data)
+      //})
       const vm=this;           
       this.$http.post(api,vm.user).then((response) => {
         console.log(response.data);
@@ -43,6 +47,7 @@ export default {
       });
 
     },
+      
   },
 };
 </script>

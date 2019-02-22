@@ -18,7 +18,7 @@ Vue.config.productionTip = false;
 
 axios.defaults.withCredentials=true;
 
-Vue.component('Loading', Loading);
+Vue.component('Loading', Loading);        //在全域啟用
 Vue.filter('currency', currencyFilter);
 
 new Vue({

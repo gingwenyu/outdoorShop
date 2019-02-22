@@ -13,7 +13,8 @@
           <th width="120">原價</th>
           <th width="120">售價</th>
           <th width="100">是否啟用</th>
-          <th width="80">編輯</th>  
+          <th width="80">編輯</th> 
+          <th width="80">刪除</th> 
         </tr>
       </thead>
       <tbody>
@@ -32,6 +33,9 @@
           </td>
           <td>
             <button class="btn btn-outline-primary btn-sm" @click="openModal(false,item)">編輯</button>
+          </td>
+          <td>
+            <button class="btn btn-outline-danger btn-sm" @click="delModal()">刪除</button>
           </td>
         </tr>
       </tbody>
@@ -176,11 +180,11 @@
             </button>
           </div>
           <div class="modal-body">
-            是否刪除 <strong class="text-danger">{{ tempProduct.title }}</strong> 商品(刪除後將無法恢復)。
+            是否刪除 <strong class="text-danger">{{ tempProduct.title }}</strong>(刪除後將無法恢復)。
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-danger"
+            <button type="button" class="btn btn-danger" @click="delConfirm()"
               >確認刪除</button>
           </div>
         </div>
@@ -223,10 +227,22 @@ export default{
         this.tempProduct={};
         this.isNew=true;
       }else{
-        this.tempProduct=Object.assign({},item);
+        this.tempProduct=Object.assign({},item);    //因為物件傳參考特性，避免兩邊的值變相同
         this.isNew=false;    
       }
       $('#productModal').modal('show');
+    },
+    delModal(){
+      $('#delProductModal').modal('show');
+    },
+    delConfirm(){
+      const vm=this;
+      vm.products.findIndex(function (el,index) { 
+        vm.products.splice(index, 1);
+      });
+      $('#delProductModal').modal('hide');
+      //儲存刪除後的列表
+      //testing   need to fix  比對products.[n].id 和 modal按下的id(帶參數?)
     },
     updateProduct(){
       let api =`${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/product`;   
