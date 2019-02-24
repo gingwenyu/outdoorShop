@@ -1,7 +1,10 @@
 <template>
   <div>
     <loading :active.sync="isLoading"></loading>
-    
+    <div class="text-right mt-4">
+      <button class="btn btn-outline-primary" @click="openModal(true)">編輯</button>     
+    </div> 
+
     <table class="table mt-4">
       <thead>
         <tr>
@@ -18,7 +21,10 @@
           <td>{{item.user.email}}</td>
           <td>{{item.products}}</td>
           <td class="text-right">{{item.total}}</td>
-          <td class="text-danger">{{item.is_paid}}</td>
+          <td>
+            <span v-if="item.is_paid" class="text-success">已付款</span>
+            <span v-else class="text-danger">尚未付款</span>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -46,6 +52,64 @@
       </ul>
     </nav>
 
+    <!-- Modal -->
+    <div class="modal fade" id="orderModal" tabindex="-1" role="dialog"
+      aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content border-0">
+          <div class="modal-header bg-dark text-white">
+            <h5 class="modal-title" id="exampleModalLabel">
+              <span>修改訂單</span>
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="">購買時間</label>
+              <input type="date" class="form-control" id=""
+                v-model="tempOrders.create_at" 
+                placeholder="date">
+              
+              <label for="">Email</label>
+              <input type="email" class="form-control" id=""
+                v-model="tempOrders.user.email" 
+                placeholder="email">
+
+              <label for="">購買品項</label>
+              <input type="text" class="form-control" id=""
+                v-model="tempOrders.products" 
+                placeholder="item">
+
+              <label for="">應付金額</label>
+              <input type="number" class="form-control" id=""
+                v-model="tempOrders.total" 
+                placeholder="total">
+
+            </div>
+
+            <div class="form-group">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox"
+                  id="is_paid" v-model="tempOrders.is_paid"
+                  :true-value="1" :false-value="2">                      
+                <label class="form-check-label" for="is_paid">
+                  是否付款
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary" @click="updateOrders">更新訂單</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- delModal -->
+
   </div>
 </template>
 
@@ -57,6 +121,8 @@ export default{
     return{
       orders:[],
       pagination:{},
+      tempOrders:{},
+      isNew:false,
       isLoading:false,
       status:{
         fileUploading:false,
@@ -76,6 +142,39 @@ export default{
         vm.orders=response.data.orders;
         vm.pagination=response.data.pagination;
       });
+    },
+    openModal(isNew,item){      
+      if(isNew){
+        this.tempOrders={};
+        this.isNew=true;
+      }else{
+        this.tempOrders=Object.assign({},item);    //因為物件傳參考特性，避免兩邊的值變相同
+        this.isNew=false;    
+      }
+      $('#orderModal').modal('show');
+    },
+    //testing
+    updateOrders(){     
+      const vm=this;
+      if(!vm.isNew){
+        //api=`${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/order/${vm.tempOrders.id}`;
+      //}
+      console.log(process.env.APIPATH,process.env.CUSTOMPATH);
+      const api=`${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/order/${vm.tempOrders.id}`;  
+      this.$http.put(api,{data:vm.tempOrders}).then((response) => {
+        console.log(response.data);
+        if(response.data.success){
+          $('#orderModal').modal('hide');
+          vm.getOrders();
+        }else{
+          $('#orderModal').modal('hide');
+          vm.getOrders();
+          console.log('新增失敗');
+        }
+        
+      });
+      }
+
     },
   
    },  

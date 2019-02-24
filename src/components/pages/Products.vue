@@ -235,14 +235,18 @@ export default{
     delModal(){
       $('#delProductModal').modal('show');
     },
+    //testing need to fix
     delConfirm(){
-      const vm=this;
-      vm.products.findIndex(function (el,index) { 
-        vm.products.splice(index, 1);
+      const vm=this; 
+      const api =`${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/product/${vm.products[0].id}`;   //[n]如何跑回圈 or偵測是哪一筆資料的id
+      //刪除產品/api/:api_path/admin/product/:product_id 
+      this.$http.delete(api).then((response) => {
+        console.log(response.data);
+        //vm.products.splice(vm.products[0].id, 1);  
       });
       $('#delProductModal').modal('hide');
-      //儲存刪除後的列表
-      //testing   need to fix  比對products.[n].id 和 modal按下的id(帶參數?)
+      vm.getProducts();
+      //刪除後再 更新/重新整理畫面  未完成
     },
     updateProduct(){
       let api =`${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/product`;   
