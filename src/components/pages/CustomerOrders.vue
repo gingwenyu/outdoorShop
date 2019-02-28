@@ -36,8 +36,8 @@
     </div>
    
     <!--table & form-->
-    <div class="w-75">
-      <table class="table mt-4">
+    <div class="my-5 row justify-content-center">
+      <table class="table mt-4 col-md-8">
         <thead>
           <tr>
             <th width="50"></th>
@@ -48,7 +48,6 @@
         </thead>
         <tbody>
           <tr v-for="item in cart.carts" :key="item.id" v-if="cart.carts">
-          <!--<tr v-for="(item) in products" :key="item.id">-->
             <td>
               <button type="button" class="btn btn-outline-danger btn-sm"
               @click="removeCartItem(item.id)">
@@ -63,26 +62,61 @@
         <tfoot>
           <tr>
             <td class="text-right" colspan="3">總計</td>
-            <td class="text-right">{{cart.total}}</td>    <!--{{cart.total}}???-->      
+            <td class="text-right">{{cart.total}}</td>          
           </tr>
           <tr v-if="cart.final_total!==cart.total">
             <td class="text-right text-success"colspan="3">折扣價</td>
-            <td class="text-right text-success">{{cart.final_total}}</td><!--???-->
+            <td class="text-right text-success">{{cart.final_total}}</td>
           </tr>
         </tfoot>
       </table>
 
-      <div class="input-group mb-3">
-        <input type="text" class="form-control" v-model="coupon_code" placeholder="請輸入優惠碼">
-        <button type="button" class="btn btn-outline-secondary"
-         @click="addCouponCode()"><!--v-model="coupon_code"-->
-          套用優惠碼
-        </button>
-      </div>
-
-      <label for="emailID">Email</label>
-      <div class="input-group mb-3">
-        <input type="email" class="form-control" placeholder="請輸入email" id="emailID">
+      <div class="col-md-8">
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" v-model="coupon_code" placeholder="請輸入優惠碼">
+          <button type="button" class="btn btn-outline-secondary"
+           @click="addCouponCode()"><!--v-model="coupon_code"-->
+            套用優惠碼
+          </button>
+        </div>
+       
+        <form class="" @submit.prevent="createOrder()">
+          <label for="">Email</label>
+          <div class="input-group mb-3">
+            <input type="email" class="form-control" name="email" v-validate="'required|email'" placeholder="請輸入email" id=""
+               v-model="form.user.email" :class="{'is-invalid':errors.has('email')}">
+            <span class="text-danger" v-if="errors.has('email')">
+              {{ errors.first('email') }}
+            </span> 
+          </div>
+          <label for="">收件人姓名</label>
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" name="name" v-validate="'required'" placeholder="請輸入姓名" id=""
+              v-model="form.user.name" :class="{'is-invalid':errors.has('name')}">
+            <span class="text-danger" v-if="errors.has('name')">姓名必須輸入</span>  
+          </div>
+          <label for="">收件人電話</label>
+          <div class="input-group mb-3">
+            <input type="tel" class="form-control" name="tel" v-validate="'required'" placeholder="請輸入電話" id=""
+              v-model="form.user.tel" :class="{'is-invalid':errors.has('tel')}">
+            <span class="text-danger" v-if="errors.has('tel')">電話必須輸入</span>  
+          </div>
+          <label for="">收件人地址</label>
+          <div class="input-group mb-3">
+            <input type="address" class="form-control" name="add" v-validate="'required'" placeholder="請輸入地址" id=""
+              v-model="form.user.address" :class="{'is-invalid':errors.has('add')}">
+            <span class="text-danger" v-if="errors.has('add')">地址必須輸入</span>
+          </div>
+          <label for="txt">留言</label>
+          <div class="input-group mb-3">
+            <textarea name="txt" id="txt" cols="80" rows="8" v-validate="'required'"
+            v-model="form.message"></textarea>
+            <span class="text-danger" v-if="errors.has('txt')">留言必須輸入</span>
+          </div>
+          <div class="d-flex">
+            <button class="btn btn-danger btn-sm ml-auto">送出訂單</button>
+          </div>
+        </form>
       </div>
     </div>
 
@@ -142,6 +176,15 @@ export default{
       status:{
         loadingItem:'',
       },
+      form:{
+        user:{
+          name:'',
+          email:'',
+          tel:'',
+          address:'',
+        },
+        message:'',  
+      },
       cart:{},   
       isLoading:false,   
       coupon_code:'',   
@@ -190,7 +233,7 @@ export default{
       vm.isLoading=true;
       this.$http.get(url).then((response) => {
         console.log(response);
-        //vm.cart=response.data.data.carts;  //testing
+        vm.cart = response.data.data;  
         vm.isLoading=false;
       });
     },
@@ -208,13 +251,32 @@ export default{
       const url =`${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/coupon`;  
       const vm=this;
       const coupon={
-        code:vm.coupon_code
-      }
+        code:vm.coupon_code,
+      };
       vm.isLoading=true;
       this.$http.post(url,{data:coupon}).then((response) => {
         vm.getCart();
         console.log(response);
         vm.isLoading=false;
+      });
+    },
+    createOrder(){
+      const vm=this;
+      const url =`${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/order`;  
+      const order=vm.form;
+      //vm.isLoading=true;
+      this.$validator.validate().then((result)=>{
+        if(result){
+          this.$http.post(url,{data:order}).then((response) => {
+            console.log('訂單已建立',response);
+            if(response.data.success){
+              vm.$router.push(`/customer_checkout/${response.data.orderId}`)
+            }
+            vm.isLoading=false;
+          });
+        }else{
+          console.log('欄位不完整');  
+        }
       });
     },
   },

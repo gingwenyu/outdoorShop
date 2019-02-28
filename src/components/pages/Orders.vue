@@ -2,7 +2,7 @@
   <div>
     <loading :active.sync="isLoading"></loading>
     <div class="text-right mt-4">
-      <button class="btn btn-outline-primary" @click="openModal(true)">編輯</button>     
+      <button class="btn btn-outline-primary" @click="openModal(true)">新增</button>     
     </div> 
 
     <table class="table mt-4">
@@ -13,17 +13,21 @@
           <th>購買品項</th>
           <th width="100">應付金額</th> 
           <th width="100">是否付款</th> 
+          <th width="80">修改</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="(item) in orders" :key="item.id">
           <td>{{item.create_at}}</td>
-          <td>{{item.user.email}}</td>
+          <td v-if="item.user">{{item.user.email}}</td>
           <td>{{item.products}}</td>
           <td class="text-right">{{item.total}}</td>
           <td>
             <span v-if="item.is_paid" class="text-success">已付款</span>
             <span v-else class="text-danger">尚未付款</span>
+          </td>
+          <td>
+            <button class="btn btn-outline-primary btn-sm" @click="openModal(false,item)">修改</button>
           </td>
         </tr>
       </tbody>
@@ -72,9 +76,10 @@
                 v-model="tempOrders.create_at" 
                 placeholder="date">
               
-              <label for="">Email</label>
+              <label v-if="tempOrders.user" for="">Email</label>
               <input type="email" class="form-control" id=""
-                v-model="tempOrders.user.email" 
+                v-if="tempOrders.user"  
+                v-model="tempOrders.user.email"
                 placeholder="email">
 
               <label for="">購買品項</label>
@@ -102,7 +107,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-primary" @click="updateOrders">更新訂單</button>
+            <button type="button" class="btn btn-primary" @click="updateOrders()">更新訂單</button>
           </div>
         </div>
       </div>
@@ -154,26 +159,30 @@ export default{
       $('#orderModal').modal('show');
     },
     //testing
-    updateOrders(){     
-      const vm=this;
+    updateOrders(){ 
+      const vm=this;    
+      let api =`${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/order`; 
+      //新增  
+      let httpMethod='post';
       if(!vm.isNew){
-        //api=`${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/order/${vm.tempOrders.id}`;
-      //}
-      console.log(process.env.APIPATH,process.env.CUSTOMPATH);
-      const api=`${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/order/${vm.tempOrders.id}`;  
-      this.$http.put(api,{data:vm.tempOrders}).then((response) => {
-        console.log(response.data);
-        if(response.data.success){
-          $('#orderModal').modal('hide');
-          vm.getOrders();
-        }else{
-          $('#orderModal').modal('hide');
-          vm.getOrders();
-          console.log('新增失敗');
+        api=`${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/order/${vm.tempOrders.id}`;         
+        //修改
+        httpMethod='put';
         }
-        
-      });
-      }
+        console.log(process.env.APIPATH,process.env.CUSTOMPATH);
+        this.$http[httpMethod](api,{data:vm.tempOrders}).then((response) => {
+          console.log(response.data);
+          if(response.data.success){
+            $('#orderModal').modal('hide');
+            vm.getOrders();
+          }else{
+            $('#orderModal').modal('hide');
+            vm.getOrders();
+            console.log('新增失敗');
+          }
+
+        });
+      
 
     },
   

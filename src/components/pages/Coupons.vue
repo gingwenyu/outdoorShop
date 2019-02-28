@@ -17,7 +17,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item) in coupons" :key="item.id">
+        <tr v-for="item in coupons" :key="item.id">
           <td>{{item.title}}</td>
           <td>{{item.percent}}</td>
           <td>{{item.due_date}}</td>
@@ -29,7 +29,7 @@
             <button class="btn btn-outline-primary btn-sm" @click="openModal(false,item)">編輯</button>
           </td>
           <td>
-            <button class="btn btn-outline-danger btn-sm" @click="delModal()">刪除</button>
+            <button class="btn btn-outline-danger btn-sm" @click="delModal(item.id)">刪除</button>
           </td>
           
         </tr>
@@ -128,10 +128,10 @@
           <div class="modal-body">
             是否刪除 <strong class="text-danger">{{ tempCoupons.title }}</strong>(刪除後將無法恢復)。 <!--在modal上無法顯示商品名稱-->
           </div>
-          <div class="modal-footer">
+          <div class="modal-footer">  <!--testing-->
             <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">取消</button>
             <button type="button" class="btn btn-danger" @click="delConfirm()"
-              >確認刪除</button>
+              >確認刪除</button><!--testing-->
           </div>
         </div>
       </div>
@@ -179,21 +179,26 @@ export default{
       }
       $('#couponModal').modal('show');
     },
-    delModal(){
+    delModal(id){
       $('#delCouponModal').modal('show');
-    },
-    //testing need to fix
-    delConfirm(){
       const vm=this; 
-      const api =`${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/coupon/${vm.coupons[0].id}`;   //[n]如何跑回圈 or偵測是哪一筆資料的id
+      const api =`${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/coupon/${id}`;
       //刪除優惠券 /api/:api_path/admin/coupon/:coupon_id 
       this.$http.delete(api).then((response) => {
         console.log(response.data);
-        //vm.coupons.splice(vm.coupons[0].id, 1);  
       });
+    },
+    //testing need to fix
+    delConfirm(){
+      //const vm=this; 
+      //const api =`${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/coupon/${vm.coupons[0].id}`;
+      ////刪除優惠券 /api/:api_path/admin/coupon/:coupon_id 
+      //this.$http.delete(api).then((response) => {
+      //  console.log(response.data);
+      //  //vm.coupons.splice(vm.coupons[0].id, 1);  
+      //});
       $('#delCouponModal').modal('hide');
       vm.getCoupons();
-      //刪除後再 更新/重新整理畫面  未完成
       //要修改三處:1.modal商品名稱沒有顯示  2.選取刪除第幾個項目(迴圈or偵測行為   3.刪除之後的畫面更新 
     },
     updateCoupons(){

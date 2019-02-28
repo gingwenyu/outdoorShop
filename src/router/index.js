@@ -4,12 +4,14 @@ import VueRouter from 'vue-router';
 
 //自訂的分頁元件
 //import HelloWorld from '@/components/HelloWorld';
+import frontDashboard from '@/components/frontDashboard';  //testing
 import Dashboard from '@/components/Dashboard';
 import Login from '@/components/pages/Login';
 import Products from '@/components/pages/Products';
 import Orders from '@/components/pages/Orders';
 import Coupons from '@/components/pages/Coupons';
 import customerOrder from '@/components/pages/CustomerOrders';
+import CustomerCheckout from '@/components/pages/CustomerCheckout';
 
 Vue.use(VueRouter);
 
@@ -24,8 +26,12 @@ export default new VueRouter({
    //   path:'/',
    //   name:'HelloWorld',
    //   component: HelloWorld,
-   //   meta: { requiresAuth: true },
    // },
+    {
+      path: '/',
+      name: 'frontDashboard',
+      component: frontDashboard,
+    },
     {
       path: '/login',
       name: 'Login',
@@ -66,9 +72,13 @@ export default new VueRouter({
           name: 'CustomerOrder',
           component: customerOrder,          
         },
+        {
+          path: 'customer_checkout/:orderId',
+          name: 'CustomerCheckout',
+          component: CustomerCheckout,
+        },
+
       ],
     },
-
-
   ],  
 });
