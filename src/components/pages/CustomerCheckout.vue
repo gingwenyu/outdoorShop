@@ -1,5 +1,4 @@
 <template>
-  <!--<div>結帳確認</div>-->
   <div>
     <div class="my-5 row justify-content-center">
       <form class="col-md-6" @submit.prevent="payOrder()">
@@ -28,7 +27,7 @@
           <tbody>
             <tr>
               <th width="100">Email</th>
-              <td>{{ order.user.email }}</td>
+              <td>{{ order.user.email }}</td>   
             </tr>
             <tr>
               <th>姓名</th>

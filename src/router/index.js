@@ -4,7 +4,6 @@ import VueRouter from 'vue-router';
 
 //自訂的分頁元件
 //import HelloWorld from '@/components/HelloWorld';
-import frontDashboard from '@/components/frontDashboard';  //testing
 import Dashboard from '@/components/Dashboard';
 import Login from '@/components/pages/Login';
 import Products from '@/components/pages/Products';
@@ -27,11 +26,6 @@ export default new VueRouter({
    //   name:'HelloWorld',
    //   component: HelloWorld,
    // },
-    {
-      path: '/',
-      name: 'frontDashboard',
-      component: frontDashboard,
-    },
     {
       path: '/login',
       name: 'Login',
