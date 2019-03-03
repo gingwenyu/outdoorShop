@@ -6,6 +6,10 @@ import VueRouter from 'vue-router';
 
 import frontDashboard from '@/components/frontDashboard';
 import Home from '@/components/pages/Home';
+import ShoppingProAll from '@/components/pages/ShoppingProAll';
+import ShoppingProduct from '@/components/pages/ShoppingProduct';
+import ShoppingCheckout from '@/components/pages/ShoppingCheckout';  
+import ShoppingDone from '@/components/pages/ShoppingDone';
 import Dashboard from '@/components/Dashboard';
 import Login from '@/components/pages/Login';
 import Products from '@/components/pages/Products';
@@ -27,12 +31,32 @@ export default new VueRouter({
     {
       path: '/front',
       name: 'frontDashboard',
-      component: frontDashboard,
+      component: frontDashboard,  
       children: [
         {
           path: '/home',
           name: 'Home',
           component: Home,
+        },
+        {
+          path: '/shopping_proall',   //   /shopping_proall
+          name: 'ShoppingProAll',
+          component: ShoppingProAll,  
+        },
+        {
+          path: '/shopping_product',
+          name: 'ShoppingProduct',
+          component: ShoppingProduct,
+        },
+        {
+          path: '/shopping_checkout',
+          name: 'ShoppingCheckout',
+          component: ShoppingCheckout,
+        },
+        {
+          path: '/shopping_done',
+          name: 'ShoppingDone',
+          component: ShoppingDone,
         },
       ]  
     },    

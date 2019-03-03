@@ -3,15 +3,15 @@
   <!-- headers -->
   <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <a class="navbar-brand" href="#">
-      <i class="fas fa-snowboarding fa-2x text-light"></i>Hex Shop
+      <i class="fas fa-campground fa-2x text-light"></i>Outdoor Shop
     </a>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item active">
-          <a class="nav-link text-light px-3" href="#">Home</a>           
+          <router-link class="nav-link text-light px-3" to="/front/home">Home</router-link>           
         </li>
-        <li class="nav-item">
-          <a class="nav-link text-light px-3" href="#">Product</a>
+        <li class="nav-item">          
+          <router-link class="nav-link text-light px-3" to="/front/shopping_proall">Product</router-link>
         </li>
         <li class="nav-item">
           <router-link class="nav-link text-light px-3" to="/">Administrator</router-link>
@@ -75,16 +75,19 @@
           </div>
         </div>
         <li class="list-inline-item">
-          <a class="text-white" href="#"><i class="fab fa-instagram"></i>Instagram</a>
+          <a class="text-white" href="#"><i class="fab fa-instagram"></i>&ensp;Instagram</a>
         </li>
         <li class="list-inline-item">
-          <a class="text-white" href="#"><i class="fab fa-facebook"></i>Facebook</a>  
+          <a class="text-white" href="#"><i class="fab fa-facebook"></i>&ensp;Facebook</a>  
         </li>
         <li class="list-inline-item">
-          <a class="text-white" href="#"><i class="fab fa-line"></i>Line</a>   
+          <a class="text-white" href="#"><i class="fab fa-line"></i>&ensp;Line</a>   
         </li>
       </ul>
-      <p class="text-center">© Copright 2019 Hex Shop</p>
+      <p class="text-center">© Copright 2019 Outdoor Shop
+        <i class="fas fa-campground text-light"></i>   
+      </p>
+      
     </div>
   </footer>
 

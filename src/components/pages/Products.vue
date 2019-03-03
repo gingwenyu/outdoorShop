@@ -42,7 +42,7 @@
     </table>
 
     <nav aria-label="Page navigation example">
-      <ul class="pagination">
+      <ul class="pagination justify-content-center">
         <li class="page-item" :class="{'disabled':!pagination.has_pre}">
           <a class="page-link" href="#" aria-label="Previous"
              @click.prevent="getProducts(pagination.current_page-1)">
@@ -219,7 +219,7 @@ export default{
         console.log(response.data);
         vm.isLoading=false;
         vm.products=response.data.products;
-        vm.pagination=response.data.pagination;
+        vm.pagination=response.data.pagination; 
       });
     },
     openModal(isNew,item){      
