@@ -1,7 +1,8 @@
 <template>
   <div>
     <div class="container main-contant py-5">
-      <h1 class="text-center mb-3 text-secondary">六角血拼 結帳</h1>
+      <!--結帳流程-->
+      <h1 class="text-center mb-3 text-secondary">結帳</h1>
       <section class="form-row align-items-center text-center">
         <div class="col">
           <div class="alert alert-success alert-rounded mb-0" role="alert">
@@ -29,7 +30,7 @@
                   顯示購物車細節
                   <i class="fa fa-angle-down" aria-hidden="true"></i>
                 </a>
-                <span class="h3 ml-auto mb-0">$520</span>
+                <span class="h3 ml-auto mb-0">{{total}}</span>
               </h6>
             </div>
           </div>
@@ -45,29 +46,35 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td class="align-middle text-center">
-                    <a href="#removeModal" class="text-muted" data-toggle="modal" data-title="刪除 金牌西裝 1 件">
-                      <i class="fa fa-trash-o" aria-hidden="true"></i>
-                    </a>
+                <tr v-for="item in cart.carts" :key="item.id" v-if="cart.carts">
+                  <td>
+                    <button type="button" class="btn btn-outline-danger border-0"
+                      @click="removeCartItem(item.id)">
+                      <i class="far fa-trash-alt fa-1x"></i>
+                    </button>   
                   </td>
                   <td class="align-middle">
-                    <img src="https://images.unsplash.com/photo-1494281258937-45f28753affd?w=1350" class="img-fluid img-thumbnail" alt="">
+                    <!--<img :src="imgUrl"/> -->
+                    <!--
+                    <div class="img-fluid img-thumbnail border-0 shadow-sm">
+                      <div style="height: 150px; background-size: cover; background-position: center"
+                          :style="{backgroundImage:`url(${item.imageUrl})`}">
+                    </div>-->
                   </td>
-                  <td class="align-middle">金牌西裝</td>
-                  <td class="align-middle">1 件</td>
-                  <td class="align-middle text-right">$520</td>
+                  <td class="align-middle">{{item.product.title}}</td>
+                  <td class="align-middle">{{item.qty}}{{item.product.unit}}</td>
+                  <td class="align-middle text-right">{{item.product.price|currency}}</td>
                 </tr>
                 <tr>
                   <td colspan="4" class="text-right">運費</td>
                   <td class="text-right">
-                    <strong>$60</strong>
+                    <strong>$100</strong>
                   </td>
                 </tr>
                 <tr>
                   <td colspan="4" class="text-right">合計</td>
                   <td class="text-right">
-                    <strong>$580</strong>
+                    <strong>{{total}}</strong>
                   </td>
                 </tr>
               </tbody>
@@ -123,9 +130,10 @@
               </div>
             </div>
             <div class="text-right">
-              <a href="shoppingCart.html" class="btn btn-secondary">繼續選購</a>
+              <router-link class="btn btn-secondary" to="/front/shopping_proall">
+                繼續選購
+              </router-link>
               <button type="submit" class="btn btn-primary">確認付款</button>
-              <a href="shoppingCart-purchase.html" class="btn btn-primary">再次確認</a>
             </div>
           </form>
           
@@ -135,23 +143,49 @@
   </div>
 </template>
 
+<!--('needs-validation')尚未完成-->
 <script>
-/*
-          // Example starter JavaScript for disabling form submissions if there are invalid fields
-          (function () {
-            'use strict';
+import $ from 'jquery';
 
-            window.addEventListener('load', function () {
-              var form = document.getElementById('needs-validation');
-              form.addEventListener('submit', function (event) {
-                if (form.checkValidity() === false) {
-                  event.preventDefault();
-                  event.stopPropagation();
-                }
-                form.classList.add('was-validated');
-              }, false);
-            }, false);
-          })();
-*/
+export default{
+  data(){
+    return{
+      cart:{},
+      total:{},
+      isLoading:false,
+    }; 
+  },
+  methods:{
+    getCart(){   
+      const url =`${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart`;  
+      //取得購物車列表/api/:api_path/cart
+      const vm=this;
+      vm.isLoading=true;
+      this.$http.get(url).then((response) => {
+        console.log(response);
+        vm.cart = response.data.data; 
+        vm.total = response.data.data.total+100;
+        vm.isLoading=false;  
+      });
+    },
+    removeCartItem(id){
+      const url =`${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart/${id}`;  
+      const vm=this;
+      vm.isLoading=true;
+      this.$http.delete(url).then((response) => {
+        vm.getCart();
+        console.log(response);
+        vm.isLoading=false;
+      });
+    },
+
+  },
+  
+  created(){
+    this.getCart();   
+  },
+
+};
 </script>
+              
 

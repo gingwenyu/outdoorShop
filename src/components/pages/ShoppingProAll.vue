@@ -51,11 +51,13 @@
                 </div>
               </div>
               <div class="card-footer d-flex"> 
-                <button type="button" class="btn btn-outline-secondary btn-sm"
-                  @click="getProduct(item.id)">
-                  <i class="fas fa-spinner fa-spin" v-if="status.loadingItem===item.id"></i>
-                  查看更多
-                </button>
+                <router-link to="/front/shopping_product">
+                  <button type="button" class="btn btn-outline-secondary btn-sm"
+                    @click="getProduct(item.id)">
+                    <i class="fas fa-spinner fa-spin" v-if="status.loadingItem===item.id"></i>
+                    查看更多
+                  </button>
+                </router-link>
                 <button type="button" class="btn btn-outline-danger btn-sm ml-auto"
                   @click="addtoCart(item.id)">
                   <i class="fas fa-spinner fa-spin" v-if="status.loadingItem===item.id"></i>
@@ -177,40 +179,15 @@ export default{
       this.$http.post(url,{data:cart}).then((response) => {
         console.log(response);
         vm.status.loadingItem='';
-        //vm.getCart();
+        //新增重新整理的功能?尚未新增        
       });  
     },
-    /*
-    getCart(){   
-      const url =`${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart`;  
-      //取得購物車列表/api/:api_path/cart
-      const vm=this;
-      vm.isLoading=true;
-      this.$http.get(url).then((response) => {
-        console.log(response);
-        vm.cart = response.data.data;  
-        vm.isLoading=false;
-      });
-    },
-    */
-    /*
-    removeCartItem(id){
-      const url =`${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart/${id}`;  
-      const vm=this;
-      vm.isLoading=true;
-      this.$http.delete(url).then((response) => {
-        vm.getCart();
-        console.log(response);
-        vm.isLoading=false;
-      });
-    },
-    */
+    
   },
 
 
   created(){
     this.getProducts();
-    //this.getCart();   
   },
 
 };

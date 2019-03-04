@@ -1,5 +1,6 @@
 <template>
 <div>
+  <loading :active.sync="isLoading"></loading>
   <!-- headers -->
   <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <a class="navbar-brand" href="#">
@@ -22,38 +23,31 @@
     <div class="dropdown ml-auto">
       <button class="btn btn-sm btn-cart" data-toggle="dropdown" data-flip="false">
         <i class="fa fa-shopping-cart text-white fa-2x" aria-hidden="true"></i>
-        <span class="badge badge-pill badge-danger">9</span>
+        <span class="badge badge-pill badge-danger">{{count}}</span>
         <span class="sr-only">unread messages</span>
       </button>
       <div class="dropdown-menu dropdown-menu-right p-3 rounded-0" style="min-width: 300px" data-offset="400">
         <h6>已選擇商品</h6>
         <table class="table table-sm">
           <tbody>
-            <tr>
-              <td class="align-middle text-center">
-                <a href="#removeModal" class="text-muted" data-toggle="modal" data-title="刪除 金牌西裝 1 件">
-                  <i class="fa fa-trash-o" aria-hidden="true"></i>
-                </a>
+            <tr v-for="item in cart.carts" :key="item.id" v-if="cart.carts">
+              <td class="align-middle">{{item.product.title}}</td>
+              <td class="align-middle">{{item.qty}}{{item.product.unit}}</td>
+              <td class="align-middle text-right">{{item.product.price|currency}}</td>
+              <td>
+                <button type="button" class="btn btn-outline-danger border-0"
+                  @click="removeCartItem(item.id)">
+                  <i class="far fa-trash-alt fa-1x"></i>
+                </button>   
               </td>
-              <td class="align-middle">金牌西裝</td>
-              <td class="align-middle">1 件</td>
-              <td class="align-middle text-right">$520</td>
-            </tr>
-            <tr>
-              <td class="align-middle text-center">
-                <a href="#removeModal" class="text-muted" data-toggle="modal" data-title="刪除 金牌女裝 1 件">
-                  <i class="fa fa-trash-o" aria-hidden="true"></i>
-                </a>
-              </td>
-              <td class="align-middle">金牌女裝</td>
-              <td class="align-middle">1 件</td>
-              <td class="align-middle text-right">$480</td>
             </tr>
           </tbody>
         </table>
-        <a href="#" class="btn btn-dark btn-block rounded-0">
-          <i class="fa fa-cart-plus" aria-hidden="true"></i> 結帳去
-        </a>
+        <router-link to="/front/shopping_checkout">
+          <a href="#" class="btn btn-dark btn-block rounded-0">
+            <i class="fa fa-cart-plus" aria-hidden="true"></i> 結帳去
+          </a>
+        </router-link>
       </div>
     </div>
   </nav>
@@ -93,3 +87,47 @@
 
 </div>
 </template>
+
+<script>
+import $ from 'jquery';
+
+export default{
+  data(){
+    return{
+      cart:{},
+      count:{},   
+      isLoading:false,
+    }; 
+  },
+  methods:{
+    getCart(){   
+      const url =`${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart`;  
+      //取得購物車列表/api/:api_path/cart
+      const vm=this;
+      vm.isLoading=true;
+      this.$http.get(url).then((response) => {
+        console.log(response);
+        vm.cart = response.data.data; 
+        vm.count=response.data.data.carts.length; 
+        vm.isLoading=false;  
+      });
+    },
+    removeCartItem(id){
+      const url =`${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart/${id}`;  
+      const vm=this;
+      vm.isLoading=true;
+      this.$http.delete(url).then((response) => {
+        vm.getCart();
+        console.log(response);
+        vm.isLoading=false;
+      });
+    },
+
+  },
+  
+  created(){
+    this.getCart();   
+  },
+
+};
+</script>

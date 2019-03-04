@@ -34,27 +34,27 @@ export default new VueRouter({
       component: frontDashboard,  
       children: [
         {
-          path: '/home',
+          path: 'home',
           name: 'Home',
           component: Home,
         },
         {
-          path: '/shopping_proall',   //   /shopping_proall
+          path: 'shopping_proall',  
           name: 'ShoppingProAll',
           component: ShoppingProAll,  
         },
         {
-          path: '/shopping_product',
+          path: 'shopping_product',
           name: 'ShoppingProduct',
           component: ShoppingProduct,
         },
         {
-          path: '/shopping_checkout',
+          path: 'shopping_checkout',
           name: 'ShoppingCheckout',
           component: ShoppingCheckout,
         },
         {
-          path: '/shopping_done',
+          path: 'shopping_done',
           name: 'ShoppingDone',
           component: ShoppingDone,
         },

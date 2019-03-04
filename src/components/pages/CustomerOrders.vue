@@ -55,7 +55,7 @@
               </button>   
             </td>
             <td>{{item.product.title}}</td>
-            <td class="text-right">{{item.qty}}/{{item.product.unit}}</td>
+            <td class="text-right">{{item.qty}}{{item.product.unit}}</td>
             <td class="text-right">{{item.product.price|currency}}</td>
           </tr>
         </tbody>
