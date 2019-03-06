@@ -4,7 +4,10 @@
     <div class="container ">
       <div class="p-3 bg-lighter text-right text-light">
         <h1 class="font-weight-bold">Enjoy the outdoor activities!</h1>
-        <p class="lead">&#151; Just do it.</p>
+        <p class="lead">&#151;Just do it.</p>
+        <router-link to="/front/shopping_proall">
+          <button class="btn btn-outline-success btn-sm rounded-0">more detail</button>
+        </router-link> 
       </div>
     </div>
   </div>

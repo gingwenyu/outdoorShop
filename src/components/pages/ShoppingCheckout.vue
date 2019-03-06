@@ -1,5 +1,6 @@
 <template>
   <div>
+    <loading :active.sync="isLoading"></loading>
     <div class="container main-contant py-5">
       <!--結帳流程-->
       <h1 class="text-center mb-3 text-secondary">結帳</h1>
@@ -41,25 +42,21 @@
                   <th width="30"></th>
                   <th width="100"></th>
                   <th>商品名稱</th>
-                  <th width="100">數量</th>
-                  <th width="80">小計</th>
+                  <th width="100" class="text-right">數量</th>
+                  <th width="80" class="text-right">小計</th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="item in cart.carts" :key="item.id" v-if="cart.carts">
-                  <td>
+                <tr v-for="item in cart.carts" :key="item.id">
+                  <td class="align-middle">
                     <button type="button" class="btn btn-outline-danger border-0"
                       @click="removeCartItem(item.id)">
                       <i class="far fa-trash-alt fa-1x"></i>
                     </button>   
                   </td>
                   <td class="align-middle">
-                    <!--<img :src="imgUrl"/> -->
-                    <!--
-                    <div class="img-fluid img-thumbnail border-0 shadow-sm">
-                      <div style="height: 150px; background-size: cover; background-position: center"
-                          :style="{backgroundImage:`url(${item.imageUrl})`}">
-                    </div>-->
+                    <img :src="`${item.product.imageUrl}`" 
+                      style="height: 100px; background-size: cover; background-position: center"/>
                   </td>
                   <td class="align-middle">{{item.product.title}}</td>
                   <td class="align-middle">{{item.qty}}{{item.product.unit}}</td>
@@ -84,21 +81,33 @@
           <h5 class="py-3 mt-5 mb-2 text-center bg-light">
             訂購人資訊
           </h5>
-          <form id="needs-validation" novalidate>
+          <form id="needs-validation" @submit.prevent="createOrder()">
             <div class="form-row">
               <div class="form-group col-md-6">
-                <label for="username">姓名</label>
-                <input type="text" class="form-control" id="username" placeholder="姓名" required>
-                <div class="invalid-feedback">
-                  請輸入姓名
+                <label for="name">姓名</label>
+                <div class="input-group mb-3">
+                  <input type="text" class="form-control" name="name" v-validate="'required'" placeholder="請輸入姓名" id=""
+                    v-model="form.user.name" :class="{'is-invalid':errors.has('name')}">
+                  <span class="text-danger" v-if="errors.has('name')">姓名必須填寫</span>  
                 </div>
               </div>
               <div class="form-group col-md-6">
-                <label for="email">Email</label>
-                <input type="email" class="form-control" id="email" placeholder="Email" required>
-                <div class="invalid-feedback">
-                  請輸入正確的 Email
+                <label for="">電話</label>
+                <div class="input-group mb-3">
+                  <input type="tel" class="form-control" name="tel" v-validate="'required'" placeholder="請輸入電話" id=""
+                    v-model="form.user.tel" :class="{'is-invalid':errors.has('tel')}">
+                  <span class="text-danger" v-if="errors.has('tel')">電話必須填寫</span>  
                 </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="">Email</label>
+              <div class="input-group mb-3">
+                <input type="email" class="form-control" name="email" v-validate="'required|email'" placeholder="請輸入email" id=""
+                  v-model="form.user.email" :class="{'is-invalid':errors.has('email')}">
+                <span class="text-danger" v-if="errors.has('email')">
+                  {{ errors.first('email') }}
+                </span> 
               </div>
             </div>
             <div class="form-row">
@@ -113,20 +122,24 @@
                 <label for="city">城市</label>
                 <select name="" id="city" class="form-control" required>
                   <option value="台北市">台北市</option>
-                  <option value="台南市">台南市</option>
+                  <option value="台中市">台中市</option>
                   <option value="高雄市">高雄市</option>
+                  <option value="...">...</option>
                 </select>
               </div>
               <div class="form-group col-md">
-                <label for="inputZip">郵遞區號</label>
-                <input type="text" class="form-control" id="inputZip">
+                <label for="post">郵遞區號</label>
+                <input type="text" class="form-control" name="post" v-validate="'required'" placeholder="請輸入郵遞區號" id="post"
+                  v-model="form.user.postCode" :class="{'is-invalid':errors.has('post')}">
+                <span class="text-danger" v-if="errors.has('add')">郵遞區號必須填寫</span>  
               </div>
             </div>
             <div class="form-group">
-              <label for="inputAddress">地址</label>
-              <input type="text" class="form-control" id="inputAddress" placeholder="重慶南路一段122號" required>
-              <div class="invalid-feedback">
-                請輸入地址
+              <label for="">地址</label>
+              <div class="input-group mb-3">
+                <input type="address" class="form-control" name="add" v-validate="'required'" placeholder="請輸入地址" id=""
+                  v-model="form.user.address" :class="{'is-invalid':errors.has('add')}">
+                <span class="text-danger" v-if="errors.has('add')">地址必須填寫</span>
               </div>
             </div>
             <div class="text-right">
@@ -134,6 +147,7 @@
                 繼續選購
               </router-link>
               <button type="submit" class="btn btn-primary">確認付款</button>
+              
             </div>
           </form>
           
@@ -143,15 +157,28 @@
   </div>
 </template>
 
-<!--('needs-validation')尚未完成-->
 <script>
 import $ from 'jquery';
 
 export default{
   data(){
     return{
-      cart:{},
+      cart:{
+        carts:{},
+      },
       total:{},
+      form:{
+        user:{
+          name:'',
+          tel:'',
+          email:'',
+          country:'',    
+          city:'',
+          postCode:'',
+          address:'',
+        },
+        message:'',  
+      },
       isLoading:false,
     }; 
   },
@@ -178,11 +205,36 @@ export default{
         vm.isLoading=false;
       });
     },
+    createOrder(){
+      const vm=this;
+      const url =`${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/order`; 
+      //結帳頁面/api/:api_path/order 
+      const order=vm.form;
+      //vm.isLoading=true;
+      this.$validator.validate().then((result)=>{
+        if(result){
+          this.$http.post(url,{data:order}).then((response) => {
+            alert('訂單已建立');
+            console.log('訂單已建立',response);
+            if(response.data.success){
+              vm.$router.push(`/shopping_done/${response.data.orderId}`);
+
+              //測試用 shopping_done/-L_Hz2PKCxrMTTLT5cv2
+              //      shopping_done/-L_IqvCiqNyv23bwaX6G
+            }
+            vm.isLoading=false;
+          });
+        }else{          
+          alert('欄位不完整');   
+        }
+      });
+    },
+
 
   },
   
   created(){
-    this.getCart();   
+    this.getCart();
   },
 
 };

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <loading :active.sync="isLoading"></loading>
     <div class="container main-contant mb-1">
         <nav aria-label="breadcrumb" role="navigation">
           <ol class="breadcrumb bg-transparent pl-0">
@@ -12,45 +13,46 @@
             <li class="breadcrumb-item active" aria-current="page">金牌西裝</li>
           </ol>
         </nav>
-        <div class="row">
+        <div class="row" v-for="item in product" :key="item.id">
           <div class="col-md-4 mb-5">
-            <div class="sticky-top" style="top: 10px;">
+            <div class="sticky-top" style="top: 10px;">   
               <h1 class="h2">
-                金牌西裝
-                <small class="text-muted">(加拉哈德版)</small>
+                金牌{{product.title}}
+                <small class="text-muted">(哈德版)</small>
               </h1>
-              <div class="d-flex my-3 align-items-end justify-content-end">
-                <del class="text-muted">售價 $1299</del>
+              <div class="d-flex my-3 align-items-end justify-content-end"> 
+                <del class="text-muted">售價 {{product.origin_price}}</del>
                 <div class="h3 mb-0 ml-auto text-danger">
                   <small>網路價 NT$</small>
-                  <strong>520</strong>
+                  <strong>{{product.price}}</strong>
                 </div>
               </div>
               <hr>尺寸:
               <div class="btn-group btn-group-sm btn-group-toggle" data-toggle="buttons">
-                <label class="btn btn-outline-secondary active">
-                  <input type="radio" name="size" checked> SM
+                <label class="btn btn-outline-secondary">
+                  <input type="radio" name="size" checked> S
                 </label>
                 <label class="btn btn-outline-secondary">
                   <input type="radio" name="size"> M
                 </label>
-                <label class="btn btn-outline-secondary disabled">
-                  <input type="radio" name="size" disabled> L
-                </label>
                 <label class="btn btn-outline-secondary">
-                  <input type="radio" name="size"> XL
+                  <input type="radio" name="size"> L
                 </label>
               </div>
 
               <div class="input-group mt-3">
-                <select name class="form-control mr-1" id>
-                  <option value="1">1 件</option>
-                  <option value="2">2 件</option>
-                  <option value="3">3 件</option>
+                <select name="" class="form-control mr-1" v-model="product.num">
+                  <option :value="num" v-for="num in 10" :key="num">
+                    選購{{num}} {{product.unit}}  
+                  </option>
                 </select>
-                <a href="shoppingCart-checkout.html" class="btn btn-primary">
-                  <i class="fa fa-cart-plus" aria-hidden="true"></i> 加入購物車
-                </a>
+                
+                <button type="button" class="btn btn-primary"
+                  @click="addtoCart(item.id)">
+                  <i class="fas fa-spinner fa-spin" v-if="status.loadingItem===item.id"></i>
+                  加入購物車
+                </button>
+
               </div>
 
               <div class="mt-2 text-right text-muted">
@@ -61,18 +63,10 @@
             </div>
           </div>
           <div class="col-md-8">
-            <h2>帥氣的西裝無人能敵</h2>
+            <h2>帥氣西裝{{product.description}}</h2>
             <p class="card-text">
-              This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little
-              bit longer.
+              {{product.content}}
             </p>
-
-            <h3 class="mt-5 text-center">合身剪裁</h3>
-            <img
-              src="https://images.unsplash.com/photo-1472417583565-62e7bdeda490?w=634"
-              class="w-100"
-              alt
-            >
 
             <h3 class="mt-5 text-center">簡單就好</h3>
             <img
@@ -81,18 +75,12 @@
               alt
             >
 
-            <h3 class="mt-5 text-center">不佔空間</h3>
-            <img
-              src="https://images.unsplash.com/photo-1475530060488-75a6de1dca6f?w=675"
-              class="w-100"
-              alt
-            >
             <div class="alert alert-secondary mt-4" role="alert">
               <h2 class="text-center">購物說明</h2>
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam, at! Totam, exercitationem repellat. Saepe facere
-                amet expedita perferendis voluptatem dicta dignissimos tempora ut atque, rerum doloribus? Magni, blanditiis.
-                Assumenda, distinctio!
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem molestiae delectus eveniet 
+                repalias accusamus at, consequatur iste consequuntur itaque enim id distinctio. Aut provident 
+                cum voluptates ducimus, unde rem.
               </p>
             </div>
           </div>
@@ -100,3 +88,63 @@
     </div>
   </div>
 </template>
+
+<script>
+import $ from 'jquery';
+
+export default{
+  data(){
+    return{
+      product:{}, 
+      status:{
+        loadingItem:'',
+      },
+      cart:{},  
+      id:'', 
+      isLoading:false,
+    }; 
+  },
+  methods:{
+    getProduct(id){
+      const url =`${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/product/${id}`;  
+      //單一商品細節/api/:api_path/product/:id  
+      const vm=this;
+      vm.status.loadingItem=id;
+      vm.isLoading=true;
+      this.$http.get(url).then((response) => {
+        console.log(response);
+        vm.product=response.data.product;
+        vm.isLoading=false;
+      });
+    },
+    addtoCart(id,qty=1,product){
+      const url =`${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart`;  
+      //加入購物車/api/:api_path/cart
+      const vm=this;
+      vm.status.loadingItem=id;
+      const cart={
+        product_id:id,
+        qty,
+        product:{
+          imageUrl:'',
+        },    
+      }
+      this.$http.post(url,{data:cart}).then((response) => {
+        console.log(response);
+        vm.status.loadingItem='';
+        //重新整理
+        this.$router.go(0);
+      });  
+    },
+    
+  },
+
+  created(){
+    this.id = this.$route.params.id;
+    console.log(this.id);
+    this.getProduct();
+  },
+
+};
+</script>
+

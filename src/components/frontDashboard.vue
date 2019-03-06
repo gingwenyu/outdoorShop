@@ -3,9 +3,9 @@
   <loading :active.sync="isLoading"></loading>
   <!-- headers -->
   <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">
+    <router-link class="navbar-brand" to="/front/home">
       <i class="fas fa-campground fa-2x text-light"></i>Outdoor Shop
-    </a>
+    </router-link>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item active">
@@ -34,7 +34,7 @@
               <td class="align-middle">{{item.product.title}}</td>
               <td class="align-middle">{{item.qty}}{{item.product.unit}}</td>
               <td class="align-middle text-right">{{item.product.price|currency}}</td>
-              <td>
+              <td class="align-middle">
                 <button type="button" class="btn btn-outline-danger border-0"
                   @click="removeCartItem(item.id)">
                   <i class="far fa-trash-alt fa-1x"></i>

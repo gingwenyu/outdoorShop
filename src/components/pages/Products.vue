@@ -35,7 +35,7 @@
             <button class="btn btn-outline-primary btn-sm" @click="openModal(false,item)">編輯</button>
           </td>
           <td>
-            <button class="btn btn-outline-danger btn-sm" @click="delModal()">刪除</button>
+            <button class="btn btn-outline-danger btn-sm" @click="delModal(item.id)">刪除</button>
           </td>
         </tr>
       </tbody>
@@ -207,6 +207,7 @@ export default{
       status:{
         fileUploading:false,
       },
+      ID:"",
     }; 
   },
   methods:{
@@ -232,22 +233,27 @@ export default{
       }
       $('#productModal').modal('show');
     },
-    delModal(){
+    delModal(id){
       $('#delProductModal').modal('show');
-    },
-    //testing need to fix
+      const vm=this; 
+      vm.ID=`${id}`;
+      console.log(vm.ID);
+    },        
     delConfirm(){
       const vm=this; 
-      const api =`${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/product/${vm.products[0].id}`;   //[n]如何跑回圈 or偵測是哪一筆資料的id
+      const api =`${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/product/${vm.ID}`;
       //刪除產品/api/:api_path/admin/product/:product_id 
       this.$http.delete(api).then((response) => {
-        console.log(response.data);
-        //vm.products.splice(vm.products[0].id, 1);  
-      });
-      $('#delProductModal').modal('hide');
-      vm.getProducts();
-      //刪除後再 更新/重新整理畫面  未完成
-    },
+        if(response.data.success){
+          console.log(response.data);
+          $('#delProductModal').modal('hide');
+          this.$router.go(0);
+        }else{
+          $('#delProductModal').modal('hide');
+          console.log('刪除失敗');
+        }  
+      });           
+    },    
     updateProduct(){
       let api =`${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/product`;   
       let httpMethod='post';

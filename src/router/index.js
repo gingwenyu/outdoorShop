@@ -43,8 +43,8 @@ export default new VueRouter({
           name: 'ShoppingProAll',
           component: ShoppingProAll,  
         },
-        {
-          path: 'shopping_product',
+        {//path: 'shopping_product/:id',
+          path: 'shopping_product/:id',
           name: 'ShoppingProduct',
           component: ShoppingProduct,
         },
@@ -53,8 +53,8 @@ export default new VueRouter({
           name: 'ShoppingCheckout',
           component: ShoppingCheckout,
         },
-        {
-          path: 'shopping_done',
+        { //path: 'shopping_done/:orderId',
+          path: 'shopping_done/:orderId',
           name: 'ShoppingDone',
           component: ShoppingDone,
         },

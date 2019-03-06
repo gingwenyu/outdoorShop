@@ -2,7 +2,7 @@
   <div>
     <loading :active.sync="isLoading"></loading>
     <div class="text-right mt-4">
-      <button class="btn btn-outline-primary" @click="openModal(true)">新增</button>     
+      <!-- <button class="btn btn-outline-primary" @click="openModal(true)">新增</button> -->   
     </div> 
 
     <table class="table mt-4">
@@ -20,7 +20,7 @@
         <tr v-for="(item) in orders" :key="item.id">
           <td>{{item.create_at}}</td>
           <td v-if="item.user">{{item.user.email}}</td>
-          <td>{{item.products}}</td>
+          <td>{{item.products}}</td>  <!--need to fix-->
           <td class="text-right">{{item.total}}</td>
           <td>
             <span v-if="item.is_paid" class="text-success">已付款</span>

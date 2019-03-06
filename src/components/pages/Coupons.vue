@@ -153,6 +153,7 @@ export default{
       status:{
         fileUploading:false,
       },
+      ID:'',
     }; 
   },
   methods:{
@@ -181,25 +182,24 @@ export default{
     },
     delModal(id){
       $('#delCouponModal').modal('show');
+      const vm=this;
+      vm.ID=`${id}`;
+      console.log(vm.ID);     
+    },
+    delConfirm(){
       const vm=this; 
-      const api =`${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/coupon/${id}`;
+      const api =`${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/coupon/${vm.ID}`;
       //刪除優惠券 /api/:api_path/admin/coupon/:coupon_id 
       this.$http.delete(api).then((response) => {
-        console.log(response.data);
-      });
-    },
-    //testing need to fix
-    delConfirm(){
-      //const vm=this; 
-      //const api =`${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/coupon/${vm.coupons[0].id}`;
-      ////刪除優惠券 /api/:api_path/admin/coupon/:coupon_id 
-      //this.$http.delete(api).then((response) => {
-      //  console.log(response.data);
-      //  //vm.coupons.splice(vm.coupons[0].id, 1);  
-      //});
-      $('#delCouponModal').modal('hide');
-      vm.getCoupons();
-      //要修改三處:1.modal商品名稱沒有顯示  2.選取刪除第幾個項目(迴圈or偵測行為   3.刪除之後的畫面更新 
+        if(response.data.success){
+          console.log(response.data);
+          $('#delCouponModal').modal('hide');
+          this.$router.go(0);
+        }else{
+          $('#delCouponModal').modal('hide');
+          console.log('刪除失敗');
+        }  
+      });           
     },
     updateCoupons(){
       let api =`${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/coupon`; 

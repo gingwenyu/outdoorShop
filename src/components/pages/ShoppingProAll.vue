@@ -1,5 +1,6 @@
 <template>
 <div>
+  <loading :active.sync="isLoading"></loading>
   <!--main content start -->
   <div class="container mt-5">
     <div class="row">
@@ -35,7 +36,7 @@
         <div class="row mt-4">
           <div class="col-md-4 mb-4" v-for="item in products" :key="item.id">
             <div class="card border-0 shadow-sm">
-              <div style="height: 150px; background-size: cover; background-position: center"
+              <div style="height: 180px; background-size: cover; background-position: center"
                   :style="{backgroundImage:`url(${item.imageUrl})`}">
             </div>
               <div class="card-body">
@@ -51,7 +52,7 @@
                 </div>
               </div>
               <div class="card-footer d-flex"> 
-                <router-link to="/front/shopping_product">
+                <router-link to="/front/shopping_product/:id"><!--/:id testing-->
                   <button type="button" class="btn btn-outline-secondary btn-sm"
                     @click="getProduct(item.id)">
                     <i class="fas fa-spinner fa-spin" v-if="status.loadingItem===item.id"></i>
@@ -137,7 +138,8 @@ export default{
       },
       cart:{},   
       isLoading:false,
-      pagination:{}, 
+      pagination:{},
+      //ID:'',
     }; 
   },
   methods:{
@@ -161,25 +163,31 @@ export default{
       this.$http.get(url).then((response) => {
         vm.product=response.data.product;
         console.log(response);
+        //vm.ID=response.data.product.id;
+        //console.log(vm.ID);
         if(response.data.success){
           vm.status.loadingItem='';
-          vm.$router.push(`/shopping_product`);  //跳轉到單一商品頁面，剛才已點選的商品，資料如何儲存?到了下一頁，如何調用資料?
+          vm.$router.push(`/shopping_product/${response.data.product.id}`);  //此處id沒有傳送到下一頁
         }
       });
     },
-    addtoCart(id,qty=1){
+    addtoCart(id,qty=1,product){
       const url =`${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart`;  
       //加入購物車/api/:api_path/cart
       const vm=this;
       vm.status.loadingItem=id;
       const cart={
         product_id:id,
-        qty,  
+        qty,
+        product:{
+          imageUrl:'',
+        },    
       }
       this.$http.post(url,{data:cart}).then((response) => {
         console.log(response);
         vm.status.loadingItem='';
-        //新增重新整理的功能?尚未新增        
+        //重新整理
+        this.$router.go(0);
       });  
     },
     

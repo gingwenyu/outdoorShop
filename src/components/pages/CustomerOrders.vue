@@ -4,7 +4,7 @@
     <div class="row mt-4">
       <div class="col-md-4 mb-4" v-for="item in products" :key="item.id">
         <div class="card border-0 shadow-sm">
-          <div style="height: 150px; background-size: cover; background-position: center"
+          <div style="height: 180px; background-size: cover; background-position: center"
               :style="{backgroundImage:`url(${item.imageUrl})`}">
         </div>
           <div class="card-body">
@@ -47,7 +47,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="item in cart.carts" :key="item.id" v-if="cart.carts">
+          <tr v-for="item in cart.carts" :key="item.id">
             <td>
               <button type="button" class="btn btn-outline-danger btn-sm"
               @click="removeCartItem(item.id)">
@@ -65,7 +65,7 @@
             <td class="text-right">{{cart.total}}</td>          
           </tr>
           <tr v-if="cart.final_total!==cart.total">
-            <td class="text-right text-success"colspan="3">折扣價</td>
+            <td class="text-right text-success" colspan="3">折扣價</td>
             <td class="text-right text-success">{{cart.final_total}}</td>
           </tr>
         </tfoot>
@@ -132,13 +132,11 @@
             </button>
           </div>
           <div class="modal-body">
-            <img :src="product.image" class="img-fluid">
-            <!--<blockquoto class="blockquoto mt-3">-->
-            <div class="blockquoto mt-3">
+            <img :src="`${product.imageUrl}`" class="img-fluid">  
+            <div class="mt-3">
               <p class="mb-0">{{product.content}}</p>
-              <footer class="blockquoto-footer text-right">{{product.description}}</footer>
+              <footer class="text-right">{{product.description}}</footer>
             </div>
-            <!--</blockquoto>-->
             <div class="d-flex justify-content-between align-items-baseline">
             </div>
             <select name="" class="form-control mt-3" v-model="product.num">
@@ -185,7 +183,9 @@ export default{
         },
         message:'',  
       },
-      cart:{},   
+      cart:{
+        carts:{},
+      },   
       isLoading:false,   
       coupon_code:'',   
     }; 
@@ -270,7 +270,7 @@ export default{
           this.$http.post(url,{data:order}).then((response) => {
             console.log('訂單已建立',response);
             if(response.data.success){
-              vm.$router.push(`/customer_checkout/${response.data.orderId}`)
+              vm.$router.push(`/customer_checkout/${response.data.orderId}`) 
             }
             vm.isLoading=false;
           });
