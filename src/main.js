@@ -9,6 +9,9 @@ import 'bootstrap';
 import 'jquery';
 import VeeValidate from 'vee-validate';
 import zhTWValidate from 'vee-validate/dist/locale/zh_TW'; 
+import VueAwesomeSwiper from 'vue-awesome-swiper'
+// require styles
+import 'swiper/dist/css/swiper.css'
 
 import App from './App';
 import router from './router';
@@ -19,6 +22,7 @@ Vue.config.productionTip = false;
 Vue.use(VueAxios, axios);
 Vue.use(VeeValidate);
 VeeValidate.Validator.localize('zh_TW', zhTWValidate);
+Vue.use(VueAwesomeSwiper)
 
 axios.defaults.withCredentials=true;
 

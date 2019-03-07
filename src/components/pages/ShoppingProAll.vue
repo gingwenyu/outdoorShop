@@ -7,16 +7,18 @@
       <div class="col-md-3">
         <!-- 左側選單 (List group) -->
         <div class="list-group sticky-top">
-          <a class="list-group-item list-group-item-action rounded-0" data-toggle="list" href="#list-gold">
-            <i class="fas fa-hiking"></i>&emsp;露營/健行</a>
-          <a class="list-group-item list-group-item-action rounded-0" data-toggle="list" href="#list-gift">
-            <i class="fas fa-dumbbell"></i>&ensp;重訓/健身</a>
-          <a href="#" class="list-group-item list-group-item-action rounded-0">
-            <i class="fas fa-skiing"></i>&emsp;滑雪</a>
-          <a href="#" class="list-group-item list-group-item-action rounded-0">
-            <i class="fas fa-swimmer"></i>&ensp;衝浪/潛水</a>
-          <a href="#" class="list-group-item list-group-item-action rounded-0">
-            <i class="fas fa-bicycle"></i>&ensp;鐵人三項</a>  
+          <li class="list-group-item list-group-item-action rounded-0" 
+            v-for="(item,key) in filter.list" :key='key'>
+            <span v-html="filter.icon"></span>
+            <a @click.prevent="changeCategory(item)">{{item}}</a>   
+          </li> 
+            <!--
+            <i class="fas fa-list"></i>&emsp;全部商品
+            <i class="fas fa-hiking"></i>&emsp;露營/健行         
+            <i class="fas fa-dumbbell"></i>&ensp;重訓/健身          
+            <i class="fas fa-skiing"></i>&emsp;滑雪          
+            <i class="fas fa-swimmer"></i>&ensp;衝浪/潛水          
+            <i class="fas fa-bicycle"></i>&ensp;鐵人三項 -->
         </div>
       </div>
       <div class="col-md-9">
@@ -139,6 +141,13 @@ export default{
       cart:{},   
       isLoading:false,
       pagination:{},
+      filter:{
+        list: ['全部商品','露營/健行','重訓/健身','滑雪','衝浪/潛水','鐵人三項'],
+        str: '全部商品',
+        icon:'<i class="fas fa-hiking"></i>',
+              //[ ] 的寫法，icon顯示會跳錯，有沒有用v-for一次載入全部icon的作法  
+      },
+      
       //ID:'',
     }; 
   },
@@ -150,10 +159,23 @@ export default{
       vm.isLoading=true;
       this.$http.get(url).then((response) => {
         console.log(response);
-        vm.products=response.data.products;
+        if(vm.filter.str!=='全部商品'){
+          let filterpro=response.data.products.filter(function(item,index,arr){
+            return item.category==vm.filter.str;  
+        })
+          vm.products=filterpro;       
+        }else{
+          vm.products=response.data.products;  
+        }
+        //vm.products=response.data.products;
         vm.pagination=response.data.pagination;
         vm.isLoading=false;
       });
+    },
+    changeCategory(item) {
+      const vm = this;
+      vm.filter.str = item;
+      vm.getProducts();
     },
     getProduct(id){
       const url =`${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/product/${id}`;
@@ -192,8 +214,7 @@ export default{
     },
     
   },
-
-
+  
   created(){
     this.getProducts();
   },

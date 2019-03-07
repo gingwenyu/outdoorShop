@@ -20,7 +20,7 @@
         <tr v-for="(item) in orders" :key="item.id">
           <td>{{item.create_at}}</td>
           <td v-if="item.user">{{item.user.email}}</td>
-          <td>{{item.products}}</td>  <!--need to fix-->
+          <td>{{ productKey(`${item.id}`) }}</td>  <!--need to fix  {{item.products(key).product.title}}-->
           <td class="text-right">{{item.total}}</td>
           <td>
             <span v-if="item.is_paid" class="text-success">已付款</span>
@@ -124,7 +124,10 @@ import $ from 'jquery';
 export default{
   data(){
     return{
-      orders:[],
+      orders:{
+        //products:{},
+        user:{},
+      },
       pagination:{},
       tempOrders:{},
       isNew:false,
@@ -145,6 +148,7 @@ export default{
         console.log(response.data);
         vm.isLoading=false;
         vm.orders=response.data.orders;
+        //分頁
         vm.pagination=response.data.pagination;
       });
     },
@@ -180,10 +184,16 @@ export default{
             vm.getOrders();
             console.log('新增失敗');
           }
-
         });
-      
-
+    },
+    //testing
+    productKey(id){
+      const vm = this;
+      let productId = Object.keys(vm.orders[id].products)[0];   //'products' of undefined >
+      console.log(productId);
+      let data = vm.orders[id].products[productId];
+      let str = `${data.product.title} * ${data.qty}`;
+      return str;
     },
   
    },  
