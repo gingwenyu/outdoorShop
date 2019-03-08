@@ -20,7 +20,7 @@
         <tr v-for="(item) in orders" :key="item.id">
           <td>{{item.create_at}}</td>
           <td v-if="item.user">{{item.user.email}}</td>
-          <td>{{ productKey(`${item.id}`) }}</td>  <!--need to fix  {{item.products(key).product.title}}-->
+          <td>{{ productKey(`${item.id}`) }}</td>  <!--need to fix  層級 {{item.products(key).product.title}}-->
           <td class="text-right">{{item.total}}</td>
           <td>
             <span v-if="item.is_paid" class="text-success">已付款</span>
@@ -135,6 +135,7 @@ export default{
       status:{
         fileUploading:false,
       },
+      ID:'',
     }; 
   },
   methods:{
@@ -189,9 +190,11 @@ export default{
     //testing
     productKey(id){
       const vm = this;
-      let productId = Object.keys(vm.orders[id].products)[0];   //'products' of undefined >
+      vm.ID=`${id}`;
+      console.log(vm.ID);
+      let productId = Object.keys(vm.orders[`${vm.ID}`].products)[0];   //'products' of undefined >
       console.log(productId);
-      let data = vm.orders[id].products[productId];
+      let data = vm.orders[`${vm.ID}`].products[productId];
       let str = `${data.product.title} * ${data.qty}`;
       return str;
     },

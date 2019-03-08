@@ -17,31 +17,30 @@
           <table class="table table-sm">
               <thead>
                 <tr>
-                  <th width="30"></th>
-                  <th width="100"></th>
+                  <th width="50">圖片</th>
                   <th>商品名稱</th>
                   <th width="100" class="text-right">數量</th>
                   <th width="80" class="text-right">小計</th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="item in cart.carts" :key="item.id">
+                <tr v-for="item in order.products" :key="item.id">
                   <td class="align-middle">
                     <img :src="`${item.product.imageUrl}`" 
                       style="height: 100px; background-size: cover; background-position: center"/>
                   </td>
                   <td class="align-middle">{{item.product.title}}</td>
-                  <td class="align-middle">{{item.qty}}{{item.product.unit}}</td>
+                  <td class="align-middle text-right">{{item.qty}}{{item.product.unit}}</td>
                   <td class="align-middle text-right">{{item.product.price|currency}}</td>
                 </tr>
                 <tr>
-                  <td colspan="4" class="text-right">運費</td>
+                  <td colspan="3" class="text-right">運費</td>
                   <td class="text-right">
                     <strong>$100</strong>
                   </td>
                 </tr>
                 <tr>
-                  <td colspan="4" class="text-right">合計</td>
+                  <td colspan="3" class="text-right">合計</td>
                   <td class="text-right">
                     <strong>{{total}}</strong>
                   </td>
@@ -85,30 +84,16 @@ import $ from 'jquery';
 export default{
   data(){
     return{
-      cart:{
-        carts:{},
-      },
       total:{},
       order:{
+        products:{},
         user:{},
       },
       orderId:'',     
       isLoading:false,
     }; 
   },
-  methods:{
-    getCart(){   
-      const url =`${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart`;  
-      //取得購物車列表/api/:api_path/cart
-      const vm=this;
-      vm.isLoading=true;
-      this.$http.get(url).then((response) => {
-        console.log(response);
-        vm.cart = response.data.data; 
-        vm.total = response.data.data.total+100;
-        vm.isLoading=false;  
-      });
-    },
+  methods:{    
     getOrder(){
       const vm=this;
       const url =`${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/order/${vm.orderId}`; 
@@ -116,6 +101,7 @@ export default{
       this.$http.get(url).then((response) => {
         console.log(response);
         vm.order = response.data.order;
+        vm.total = response.data.order.total+100;        
         vm.isLoading=false;
       });
     },
@@ -123,7 +109,6 @@ export default{
   },
   
   created(){
-    this.getCart();
     this.orderId = this.$route.params.orderId;
     this.getOrder();
     console.log(this.orderId);  

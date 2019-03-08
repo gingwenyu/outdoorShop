@@ -24,9 +24,8 @@ export default new VueRouter({
   routes:[
     {
       path:'*',
-      //redirect:'login', 
-      redirect: 'home',
-      //假設路徑不是已設定的,則重新導向至login,避免用戶進入不存在的網頁
+      redirect: '/front/home',
+      //假設路徑不是已設定的,則重新導向至home,避免用戶進入不存在的網頁
     },
     {
       path: '/front',
@@ -43,7 +42,7 @@ export default new VueRouter({
           name: 'ShoppingProAll',
           component: ShoppingProAll,  
         },
-        {//path: 'shopping_product/:id',
+        {
           path: 'shopping_product/:id',
           name: 'ShoppingProduct',
           component: ShoppingProduct,
@@ -53,7 +52,7 @@ export default new VueRouter({
           name: 'ShoppingCheckout',
           component: ShoppingCheckout,
         },
-        { //path: 'shopping_done/:orderId',
+        { 
           path: 'shopping_done/:orderId',
           name: 'ShoppingDone',
           component: ShoppingDone,

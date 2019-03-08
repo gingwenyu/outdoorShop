@@ -59,7 +59,7 @@
                       style="height: 100px; background-size: cover; background-position: center"/>
                   </td>
                   <td class="align-middle">{{item.product.title}}</td>
-                  <td class="align-middle">{{item.qty}}{{item.product.unit}}</td>
+                  <td class="align-middle text-right">{{item.qty}}{{item.product.unit}}</td>
                   <td class="align-middle text-right">{{item.product.price|currency}}</td>
                 </tr>
                 <tr>
@@ -217,10 +217,7 @@ export default{
             alert('訂單已建立');
             console.log('訂單已建立',response);
             if(response.data.success){
-              vm.$router.push(`/shopping_done/${response.data.orderId}`);
-
-              //測試用 shopping_done/-L_Hz2PKCxrMTTLT5cv2
-              //      shopping_done/-L_IqvCiqNyv23bwaX6G
+              vm.$router.push(`/front/shopping_done/${response.data.orderId}`);
             }
             vm.isLoading=false;
           });
