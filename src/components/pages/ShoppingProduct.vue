@@ -2,19 +2,19 @@
   <div>
     <loading :active.sync="isLoading"></loading>
     <div class="container main-contant mb-1">
-        <!--
+        
         <nav aria-label="breadcrumb" role="navigation">
           <ol class="breadcrumb bg-transparent pl-0">
+            <router-link class="breadcrumb-item" to="/front/shopping_proall">
+              <a href="#">商品列表</a>
+            </router-link>
             <li class="breadcrumb-item">
-              <a href="#">首頁</a>
+              <a href="#" v-if="product.category">{{product.category}}</a>
             </li>
-            <li class="breadcrumb-item">
-              <a href="#">金牌專賣店</a>
-            </li>
-            <li class="breadcrumb-item active" aria-current="page">金牌西裝</li>
+            <li class="breadcrumb-item active" aria-current="page">{{product.title}}</li>
           </ol>
         </nav>
-        -->
+        
         <div class="row">
           <div class="col-md-4 mb-5">
             <div class="sticky-top" style="top: 10px;">   
@@ -110,7 +110,7 @@ export default{
         console.log(response);
         vm.product=response.data.product;
         vm.isLoading=false;  
-      });
+      });      
     },
     addtoCart(id,qty=1,product){
       const url =`${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart`;  
@@ -139,7 +139,8 @@ export default{
     console.log(this.ID);
     this.getProduct();
   },
-
+ 
 };
+//loading 畫面 直到按下重新整理 
 </script>
 
