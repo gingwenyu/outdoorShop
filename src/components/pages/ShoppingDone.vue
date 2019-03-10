@@ -110,8 +110,8 @@ export default{
   
   created(){
     this.orderId = this.$route.params.orderId;
-    this.getOrder();
-    console.log(this.orderId);  
+    console.log(this.orderId);
+    this.getOrder();      
   },
 
 };

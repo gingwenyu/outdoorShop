@@ -9,7 +9,7 @@
               <a href="#">商品列表</a>
             </router-link>
             <li class="breadcrumb-item">
-              <a href="#" v-if="product.category">{{product.category}}</a>
+              <a href="#">{{product.category}}</a>  
             </li>
             <li class="breadcrumb-item active" aria-current="page">{{product.title}}</li>
           </ol>
@@ -24,8 +24,8 @@
               <div class="d-flex my-3 align-items-end justify-content-end"> 
                 <del class="text-muted">售價 {{product.origin_price}}</del>
                 <div class="h4 mb-0 ml-auto text-danger">
-                  <small>網路價 NT$</small>
-                  <strong>{{product.price}}</strong>
+                  <small>網路價 </small>
+                  <strong>NT${{product.price}}</strong>
                 </div>
               </div>
               <hr>尺寸:
@@ -90,11 +90,16 @@ import $ from 'jquery';
 export default{
   data(){
     return{
-      product:{}, 
+      product:{
+        num:'',
+        category:'',  
+      }, 
       status:{
         loadingItem:'',
       },
-      cart:{},  
+      cart:{
+        qty:'',
+      },  
       ID:'', 
       isLoading:false,
     }; 
@@ -109,15 +114,18 @@ export default{
       this.$http.get(url).then((response) => {
         console.log(response);
         vm.product=response.data.product;
+        vm.product.category=response.data.product.category;  //testing  
         vm.isLoading=false;  
       });      
     },
+    //選擇1以上的數字時，以下測試，把num的值帶入qty，結果 num undefined  
+    //addtoCart(id,qty=product.num,product)
     addtoCart(id,qty=1,product){
       const url =`${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart`;  
       //加入購物車/api/:api_path/cart
       const vm=this;
       vm.status.loadingItem=id;
-      const cart={
+      let cart={
         product_id:id,
         qty,
         product:{
@@ -135,12 +143,12 @@ export default{
   },
 
   created(){
-    this.ID = this.$route.params.id;
+    this.ID = this.$route.params.id;     
     console.log(this.ID);
     this.getProduct();
   },
  
 };
-//loading 畫面 直到按下重新整理 
+//loading 畫面 直到按下重新整理   
 </script>
 

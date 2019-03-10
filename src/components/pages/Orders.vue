@@ -20,10 +20,12 @@
         <tr v-for="(item) in orders" :key="item.id">
           <td>{{item.create_at}}</td>
           <td v-if="item.user">{{item.user.email}}</td>
-          <td>{{ productKey(`${item.id}`) }}</td>  <!--need to fix  層級 {{item.products(key).product.title}}-->
+          <!--testing-->
+          <td>{{item.products(`${item.id}`).product.title}}</td>     
+          <!--need to fix  層級 {{item.products(key).product.title}}-->  
           <td class="text-right">{{item.total}}</td>
           <td>
-            <span v-if="item.is_paid" class="text-success">已付款</span>
+            <span v-if="item.is_paid" class="text-success">已付款</span>    
             <span v-else class="text-danger">尚未付款</span>
           </td>
           <td>
@@ -125,7 +127,11 @@ export default{
   data(){
     return{
       orders:{
-        //products:{},
+        products:{
+          product:{
+            title:'',
+          },
+        },
         user:{},
       },
       pagination:{},
@@ -134,8 +140,7 @@ export default{
       isLoading:false,
       status:{
         fileUploading:false,
-      },
-      ID:'',
+      },     
     }; 
   },
   methods:{
@@ -187,18 +192,7 @@ export default{
           }
         });
     },
-    //testing
-    productKey(id){
-      const vm = this;
-      vm.ID=`${id}`;
-      console.log(vm.ID);
-      let productId = Object.keys(vm.orders[`${vm.ID}`].products)[0];   //'products' of undefined >
-      console.log(productId);
-      let data = vm.orders[`${vm.ID}`].products[productId];
-      let str = `${data.product.title} * ${data.qty}`;
-      return str;
-    },
-  
+    
    },  
   
   created(){

@@ -58,7 +58,11 @@
                     <img :src="`${item.product.imageUrl}`" 
                       style="height: 100px; background-size: cover; background-position: center"/>
                   </td>
-                  <td class="align-middle">{{item.product.title}}</td>
+                  <td class="align-middle">{{item.product.title}}
+                    <div class="text-success" v-if="item.coupon">
+                      已套用優惠券
+                    </div> 
+                  </td>
                   <td class="align-middle text-right">{{item.qty}}{{item.product.unit}}</td>
                   <td class="align-middle text-right">{{item.product.price|currency}}</td>
                 </tr>
@@ -74,9 +78,26 @@
                     <strong>{{total}}</strong>
                   </td>
                 </tr>
+                <tr v-if="cart.final_total!==cart.total">
+                  <td class="text-right text-success" colspan="4">折扣價</td>
+                  <td class="text-right text-success">{{cart.final_total}}</td>  
+                </tr>
+                <tr><!--v-if="cart.final_total!==''" 如果折扣價有出現則顯示，測試中-->   
+                  <td class="text-right" colspan="4">總計</td>  
+                  <td class="text-right">{{total-cart.final_total}}</td>          
+                </tr>  
               </tbody>
             </table>
           </div>
+
+          <div class="input-group my-3">
+            <input type="text" class="form-control" v-model="coupon_code" placeholder="請輸入優惠碼">
+            <button type="button" class="btn btn-outline-secondary"
+            @click="addCouponCode()">
+              套用優惠碼
+            </button>
+          </div>
+
 
           <h5 class="py-3 mt-5 mb-2 text-center bg-light">
             訂購人資訊
@@ -179,6 +200,7 @@ export default{
         },
         message:'',  
       },
+      coupon_code:'',
       isLoading:false,
     }; 
   },
@@ -203,6 +225,12 @@ export default{
         vm.getCart();
         console.log(response);
         vm.isLoading=false;
+        if(response.data.success){
+          this.$bus.$emit('messsage:push',response.data.message,'success'); 
+          this.$router.go(0);
+        }else{
+          this.$bus.$emit('messsage:push',response.data.message,'danger');
+        }
       });
     },
     createOrder(){
@@ -214,20 +242,32 @@ export default{
       this.$validator.validate().then((result)=>{
         if(result){
           this.$http.post(url,{data:order}).then((response) => {
-            alert('訂單已建立');
             console.log('訂單已建立',response);
             if(response.data.success){
+              this.$bus.$emit('messsage:push',response.data.message,'success');  
               vm.$router.push(`/front/shopping_done/${response.data.orderId}`);
             }
             vm.isLoading=false;
           });
-        }else{          
-          alert('欄位不完整');   
+        }else{  
+          this.$bus.$emit('messsage:push','欄位不完整','danger');   
         }
       });
     },
-
-
+    addCouponCode(){
+      const vm=this;
+      const url =`${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/coupon`;  
+      const coupon={
+        code:vm.coupon_code,
+      };
+      vm.isLoading=true;
+      this.$http.post(url,{data:coupon}).then((response) => {
+        console.log(response);
+        vm.getCart();
+        vm.isLoading=false;
+      });
+    },
+    
   },
   
   created(){

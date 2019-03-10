@@ -35,7 +35,7 @@
             <button class="btn btn-outline-primary btn-sm" @click="openModal(false,item)">編輯</button>
           </td>
           <td>
-            <button class="btn btn-outline-danger btn-sm" @click="delModal(item.id)">刪除</button>
+            <button class="btn btn-outline-danger btn-sm" @click="delModal(item.id,item)">刪除</button>
           </td>
         </tr>
       </tbody>
@@ -43,7 +43,7 @@
 
     <nav aria-label="Page navigation example">
       <ul class="pagination justify-content-center">
-        <li class="page-item" :class="{'disabled':!pagination.has_pre}">
+        <li class="page-item" :class="{'disabled':!pagination.has_pre}">   
           <a class="page-link" href="#" aria-label="Previous"
              @click.prevent="getProducts(pagination.current_page-1)">
             <span aria-hidden="true">&laquo;</span>
@@ -180,7 +180,7 @@
             </button>
           </div>
           <div class="modal-body">
-            是否刪除 <strong class="text-danger">{{ tempProduct.title }}</strong>(刪除後將無法恢復)。
+            是否刪除 <strong class="text-danger">{{ deltitle }}</strong>(刪除後將無法恢復)。
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">取消</button>
@@ -208,6 +208,7 @@ export default{
         fileUploading:false,
       },
       ID:"",
+      deltitle:'',
     }; 
   },
   methods:{
@@ -233,11 +234,13 @@ export default{
       }
       $('#productModal').modal('show');
     },
-    delModal(id){
+    delModal(id,item){
       $('#delProductModal').modal('show');
       const vm=this; 
       vm.ID=`${id}`;
       console.log(vm.ID);
+      vm.deltitle=Object.assign([],item.title);  //新增 解構賦值?
+      console.log(vm.deltitle);
     },        
     delConfirm(){
       const vm=this; 
@@ -248,9 +251,11 @@ export default{
           console.log(response.data);
           $('#delProductModal').modal('hide');
           this.$router.go(0);
+          this.$bus.$emit('messsage:push',response.data.message,'success');
         }else{
           $('#delProductModal').modal('hide');
           console.log('刪除失敗');
+          this.$bus.$emit('messsage:push',response.data.message,'danger');
         }  
       });           
     },    
@@ -268,12 +273,13 @@ export default{
         if(response.data.success){
           $('#productModal').modal('hide');
           vm.getProducts();
+          this.$bus.$emit('messsage:push',response.data.message,'success');
         }else{
           $('#productModal').modal('hide');
           vm.getProducts();
-          console.log('新增失敗');
+          this.$bus.$emit('messsage:push',response.data.message,'danger');
         }
-        //vm.products=response.data.products;
+        
       });
     },
     uploadFile(){
@@ -295,8 +301,9 @@ export default{
           //vm.tempProduct.imageUrl=response.data.imageUrl;
           //console.log(vm.tempProduct);
           vm.$set(vm.tempProduct,'imageUrl',response.data.imageUrl);
+          this.$bus.$emit('messsage:push',response.data.message,'success');
         }else{
-          this.$bus.$emit('message:push','response.data.message','danger'); 
+          this.$bus.$emit('messsage:push',response.data.message,'danger'); 
         }
       });
     },

@@ -54,20 +54,29 @@
                 <i class="far fa-trash-alt fa-1x"></i>
               </button>   
             </td>
-            <td>{{item.product.title}}</td>
+            <td>{{item.product.title}}
+              <div class="text-success" v-if="item.coupon">
+              已套用優惠券
+              </div> 
+            </td>  
             <td class="text-right">{{item.qty}}{{item.product.unit}}</td>
             <td class="text-right">{{item.product.price|currency}}</td>
           </tr>
         </tbody>
         <tfoot>
           <tr>
-            <td class="text-right" colspan="3">總計</td>
+            <td class="text-right" colspan="3">合計</td>
             <td class="text-right">{{cart.total}}</td>          
-          </tr>
+          </tr>          
           <tr v-if="cart.final_total!==cart.total">
             <td class="text-right text-success" colspan="3">折扣價</td>
             <td class="text-right text-success">{{cart.final_total}}</td>
           </tr>
+          <tr><!--v-if="cart.final_total!==''" 如果折扣價有出現則顯示，測試中-->  
+            <td class="text-right" colspan="3">總計</td>  
+            <td class="text-right">{{cart.total-cart.final_total}}</td>          
+          </tr>          
+
         </tfoot>
       </table>
 
@@ -245,18 +254,23 @@ export default{
         vm.getCart();
         console.log(response);
         vm.isLoading=false;
+        if(response.data.success){
+          this.$bus.$emit('messsage:push',response.data.message,'success');
+        }else{
+          this.$bus.$emit('messsage:push',response.data.message,'danger');
+        }
       });
     },
     addCouponCode(){
-      const url =`${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/coupon`;  
       const vm=this;
+      const url =`${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/coupon`;  
       const coupon={
         code:vm.coupon_code,
       };
       vm.isLoading=true;
       this.$http.post(url,{data:coupon}).then((response) => {
-        vm.getCart();
         console.log(response);
+        vm.getCart();
         vm.isLoading=false;
       });
     },
@@ -270,12 +284,13 @@ export default{
           this.$http.post(url,{data:order}).then((response) => {
             console.log('訂單已建立',response);
             if(response.data.success){
+              this.$bus.$emit('messsage:push',response.data.message,'success');
               vm.$router.push(`/customer_checkout/${response.data.orderId}`) 
             }
             vm.isLoading=false;
           });
         }else{
-          console.log('欄位不完整');  
+          this.$bus.$emit('messsage:push','欄位不完整','danger'); 
         }
       });
     },

@@ -81,8 +81,8 @@
 
               <label for="code">優惠碼</label>
               <input type="text" class="form-control" id="code"
-                v-model="tempCoupons.id"    
-                placeholder="code"> 
+                v-model="tempCoupons.code"    
+                placeholder="code">    
 
               <label for="date">到期日</label>
               <input type="date" class="form-control" id="date"
@@ -195,9 +195,11 @@ export default{
           console.log(response.data);
           $('#delCouponModal').modal('hide');
           this.$router.go(0);
+          this.$bus.$emit('messsage:push',response.data.message,'success');
         }else{
           $('#delCouponModal').modal('hide');
           console.log('刪除失敗');
+          this.$bus.$emit('messsage:push',response.data.message,'danger');
         }  
       });           
     },
@@ -217,12 +219,14 @@ export default{
         if(response.data.success){
           $('#couponModal').modal('hide');
           vm.getCoupons();
+          this.$bus.$emit('messsage:push',response.data.message,'success');
         }else{
           $('#couponModal').modal('hide');
           vm.getCoupons();
           console.log('新增失敗');
+          this.$bus.$emit('messsage:push',response.data.message,'danger');
         }
-        //vm.products=response.data.products;
+        
       });
     },
    

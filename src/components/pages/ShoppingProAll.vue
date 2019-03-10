@@ -9,8 +9,8 @@
         <div class="list-group sticky-top">
           <li class="list-group-item list-group-item-action rounded-0" 
             v-for="(item,key) in filter.list" :key='key'>
-            <!--<span :class="{ active:'item.list.icon'}"></span>-->
-            <a @click.prevent="changeCategory(item)">{{item}}</a>   
+            <span :class="`${item.icon}`"></span>  
+            <a @click.prevent="changeCategory(item)">{{item.name}}</a>   
           </li> 
         </div>
       </div>
@@ -134,10 +134,8 @@ export default{
       cart:{},   
       isLoading:false,
       pagination:{},
-      filter:{
-        str: '全部商品',
-        list: ['全部商品','露營/健行','重訓/健身','滑雪','衝浪/潛水','鐵人三項'],
-        /*
+      filter:{        
+        str: '全部商品',        
         list:[
           {
             icon: 'fas fa-list',
@@ -164,7 +162,7 @@ export default{
             name: '鐵人三項',
           },
         ],
-        */           
+                   
       },
      
     }; 
@@ -191,7 +189,8 @@ export default{
     },
     changeCategory(item) {
       const vm = this;
-      vm.filter.str = item;
+      vm.filter.str = item.name;
+      console.log(vm.filter.str);
       vm.getProducts();
     },
     getProduct(id){

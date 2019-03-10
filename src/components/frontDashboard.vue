@@ -30,7 +30,7 @@
         <h6>已選擇商品</h6>
         <table class="table table-sm">
           <tbody>
-            <tr v-for="item in cart.carts" :key="item.id" v-if="cart.carts">
+            <tr v-for="item in cart.carts" :key="item.id">   
               <td class="align-middle">{{item.product.title}}</td>
               <td class="align-middle">{{item.qty}}{{item.product.unit}}</td>
               <td class="align-middle text-right">{{item.product.price|currency}}</td>
@@ -51,6 +51,8 @@
       </div>
     </div>
   </nav>
+
+  <Alert></Alert>
   
   <!--main content-->
   <div class="">
@@ -90,11 +92,17 @@
 
 <script>
 import $ from 'jquery';
+import Alert from './AlertMessage';
 
 export default{
+  components:{    
+    Alert, 
+  },
   data(){
     return{
-      cart:{},
+      cart:{
+        carts:{},   
+      },
       count:{},   
       isLoading:false,
     }; 
@@ -120,6 +128,13 @@ export default{
         vm.getCart();
         console.log(response);
         vm.isLoading=false;
+        
+        if(response.data.success){
+          this.$bus.$emit('messsage:push',response.data.message,'success');    
+        }else{
+          this.$bus.$emit('messsage:push',response.data.message,'danger');
+        }
+        
       });
     },
 

@@ -25,7 +25,7 @@ export default new VueRouter({
     {
       path:'*',
       redirect: '/front/home',
-      //假設路徑不是已設定的,則重新導向至home,避免用戶進入不存在的網頁
+      //假設路徑不是已設定的,則重新導向至home,避免用戶進入不存在的網頁  
     },
     {
       path: '/front',
