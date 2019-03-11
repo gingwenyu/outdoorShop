@@ -207,7 +207,7 @@ export default{
       status:{
         fileUploading:false,
       },
-      ID:"",
+      ID:'',
       deltitle:'',
     }; 
   },
@@ -239,8 +239,7 @@ export default{
       const vm=this; 
       vm.ID=`${id}`;
       console.log(vm.ID);
-      vm.deltitle=Object.assign([],item.title);  //新增 解構賦值?
-      console.log(vm.deltitle);
+      vm.deltitle=item.title; 
     },        
     delConfirm(){
       const vm=this; 

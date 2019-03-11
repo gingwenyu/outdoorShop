@@ -32,13 +32,14 @@
           <tbody>
             <tr v-for="item in cart.carts" :key="item.id">   
               <td class="align-middle">{{item.product.title}}</td>
+              <!--testing-->
               <td class="align-middle">{{item.qty}}{{item.product.unit}}</td>
-              <td class="align-middle text-right">{{item.product.price|currency}}</td>
+              <td class="align-middle text-right">{{item.qty*item.product.price|currency}}</td>
               <td class="align-middle">
                 <button type="button" class="btn btn-outline-danger border-0"
                   @click="removeCartItem(item.id)">
                   <i class="far fa-trash-alt fa-1x"></i>
-                </button>   
+                </button>      
               </td>
             </tr>
           </tbody>

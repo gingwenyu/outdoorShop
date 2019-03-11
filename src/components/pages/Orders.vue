@@ -21,8 +21,8 @@
           <td>{{item.create_at}}</td>
           <td v-if="item.user">{{item.user.email}}</td>
           <!--testing-->
-          <td>{{item.products(`${item.id}`).product.title}}</td>     
-          <!--need to fix  層級 {{item.products(key).product.title}}-->  
+          <!--<td>{{item.products(`${item.id}`).product.title}}</td>-->     
+          <td v-for="el in item.products" :key="el.id">{‌{ el.product.title }}</td>            
           <td class="text-right">{{item.total}}</td>
           <td>
             <span v-if="item.is_paid" class="text-success">已付款</span>    

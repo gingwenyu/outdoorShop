@@ -49,7 +49,7 @@
                 </select>
                 
                 <button type="button" class="btn btn-primary"
-                  @click="addtoCart(product.id)">
+                  @click="addtoCart(product.id,product.num)">
                   <i class="fas fa-spinner fa-spin" v-if="status.loadingItem!==ID"></i>
                   加入購物車
                 </button>
@@ -90,8 +90,7 @@ import $ from 'jquery';
 export default{
   data(){
     return{
-      product:{
-        num:'',
+      product:{        
         category:'',  
       }, 
       status:{
@@ -120,9 +119,9 @@ export default{
     },
     //選擇1以上的數字時，以下測試，把num的值帶入qty，結果 num undefined  
     //addtoCart(id,qty=product.num,product)
-    addtoCart(id,qty=1,product){
+    addtoCart(id,qty=1,product){  
       const url =`${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart`;  
-      //加入購物車/api/:api_path/cart
+      //加入購物車/api/:api_path/cart              
       const vm=this;
       vm.status.loadingItem=id;
       let cart={

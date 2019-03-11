@@ -29,7 +29,7 @@
             <button class="btn btn-outline-primary btn-sm" @click="openModal(false,item)">編輯</button>
           </td>
           <td>
-            <button class="btn btn-outline-danger btn-sm" @click="delModal(item.id)">刪除</button>
+            <button class="btn btn-outline-danger btn-sm" @click="delModal(item.id,item)">刪除</button>
           </td>
           
         </tr>
@@ -126,7 +126,7 @@
             </button>
           </div>
           <div class="modal-body">
-            是否刪除 <strong class="text-danger">{{ tempCoupons.title }}</strong>(刪除後將無法恢復)。 <!--在modal上無法顯示商品名稱-->
+            是否刪除 <strong class="text-danger">{{ deltitle }}</strong>(刪除後將無法恢復)。 <!--在modal上無法顯示商品名稱-->
           </div>
           <div class="modal-footer">  <!--testing-->
             <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">取消</button>
@@ -154,6 +154,7 @@ export default{
         fileUploading:false,
       },
       ID:'',
+      deltitle:'',
     }; 
   },
   methods:{
@@ -180,11 +181,12 @@ export default{
       }
       $('#couponModal').modal('show');
     },
-    delModal(id){
+    delModal(id,item){
       $('#delCouponModal').modal('show');
       const vm=this;
       vm.ID=`${id}`;
-      console.log(vm.ID);     
+      console.log(vm.ID);
+      vm.deltitle=item.title;     
     },
     delConfirm(){
       const vm=this; 

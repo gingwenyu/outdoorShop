@@ -23,15 +23,15 @@
                   <th width="80" class="text-right">小計</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr v-for="item in order.products" :key="item.id">
+              <tbody v-for="item in order.products" :key="item.id">
+                <tr >
                   <td class="align-middle">
                     <img :src="`${item.product.imageUrl}`" 
                       style="height: 100px; background-size: cover; background-position: center"/>
                   </td>
                   <td class="align-middle">{{item.product.title}}</td>
                   <td class="align-middle text-right">{{item.qty}}{{item.product.unit}}</td>
-                  <td class="align-middle text-right">{{item.product.price|currency}}</td>
+                  <td class="align-middle text-right">{{item.qty*item.product.price|currency}}</td>
                 </tr>
                 <tr>
                   <td colspan="3" class="text-right">運費</td>
@@ -42,7 +42,19 @@
                 <tr>
                   <td colspan="3" class="text-right">合計</td>
                   <td class="text-right">
-                    <strong>{{total}}</strong>
+                    <strong>{{item.total+100}}</strong>
+                  </td>
+                </tr>                
+                <tr class="text-success" v-if="item.final_total!==item.total">
+                  <td colspan="3" class="text-right">折扣</td>
+                  <td class="text-right">
+                    <strong>{{100-item.coupon.percent}}%</strong>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="3" class="text-right">總計</td><!--v-if-->
+                  <td class="text-right">
+                    <strong>{{`${(item.total+100)*(100-item.coupon.percent)*1/100}`}}</strong>
                   </td>
                 </tr>
               </tbody>
@@ -84,9 +96,8 @@ import $ from 'jquery';
 export default{
   data(){
     return{
-      total:{},
       order:{
-        products:{},
+        products:{},  
         user:{},
       },
       orderId:'',     
@@ -101,7 +112,6 @@ export default{
       this.$http.get(url).then((response) => {
         console.log(response);
         vm.order = response.data.order;
-        vm.total = response.data.order.total+100;        
         vm.isLoading=false;
       });
     },
