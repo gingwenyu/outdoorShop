@@ -8,7 +8,7 @@
     <table class="table mt-4">
       <thead>
         <tr>
-          <th width="100">購買時間</th>
+          <th width="120">購買時間</th>
           <th width="200">Email</th>
           <th>購買品項</th>
           <th width="100">應付金額</th> 
@@ -18,11 +18,12 @@
       </thead>
       <tbody>
         <tr v-for="(item) in orders" :key="item.id">
-          <td>{{item.create_at}}</td>
-          <td v-if="item.user">{{item.user.email}}</td>
-          <!--testing-->
+          <td>{{item.create_at|timestamp}}</td>
+          <td v-if="item.user">{{item.user.email}}</td>          
           <!--<td>{{item.products(`${item.id}`).product.title}}</td>-->     
-          <td v-for="el in item.products" :key="el.id">{‌{ el.product.title }}</td>            
+          <td v-for="el in item.products" :key="el.id">
+            {{el.product.title}}<br>X {{el.qty}}{{el.product.unit}}  
+          </td>            
           <td class="text-right">{{item.total}}</td>
           <td>
             <span v-if="item.is_paid" class="text-success">已付款</span>    
@@ -138,7 +139,7 @@ export default{
       tempOrders:{},
       isNew:false,
       isLoading:false,
-      status:{
+      status:{  
         fileUploading:false,
       },     
     }; 
@@ -192,7 +193,7 @@ export default{
           }
         });
     },
-    
+        
    },  
   
   created(){

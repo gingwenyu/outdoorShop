@@ -47,7 +47,7 @@
                 </div>
               </div>
               <div class="card-footer d-flex"> 
-                <router-link :to="nextpage"><!--testing  /front/shopping_product/:id-->   
+                <router-link :to="productpage"><!--origin  /front/shopping_product/:id-->   
                   <button type="button" class="btn btn-outline-secondary btn-sm"
                     @click="getProduct(item.id)">
                     <i class="fas fa-spinner fa-spin" v-if="status.loadingItem===item.id"></i>
@@ -132,8 +132,8 @@ export default{
         loadingItem:'',  
       },
       cart:{},   
-      isLoading:false,
-      nextpage:'/front/shopping_product/:id', 
+      isLoading:false,      
+      productpage:'',
       pagination:{},
       filter:{        
         str: '全部商品',        
@@ -205,6 +205,7 @@ export default{
         if(response.data.success){
           vm.status.loadingItem='';
           vm.$router.push(`/front/shopping_product/${response.data.product.id}`);
+          vm.productpage=`/front/shopping_product/${response.data.product.id}`;
         }
       });
     },

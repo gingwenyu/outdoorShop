@@ -42,7 +42,7 @@
                 <tr>
                   <td colspan="3" class="text-right">合計</td>
                   <td class="text-right">
-                    <strong>{{item.total+100}}</strong>
+                    <strong>{{item.total+100|currency}}</strong>
                   </td>
                 </tr>                
                 <tr class="text-success" v-if="item.final_total!==item.total">
@@ -54,7 +54,7 @@
                 <tr>
                   <td colspan="3" class="text-right">總計</td><!--v-if-->
                   <td class="text-right">
-                    <strong>{{`${(item.total+100)*(100-item.coupon.percent)*1/100}`}}</strong>
+                    <strong>{{`${(item.total+100)*(100-item.coupon.percent)*1/100}`|currency}}</strong>
                   </td>
                 </tr>
               </tbody>

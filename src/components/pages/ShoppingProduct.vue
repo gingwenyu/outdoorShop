@@ -90,9 +90,7 @@ import $ from 'jquery';
 export default{
   data(){
     return{
-      product:{        
-        category:'',  
-      }, 
+      product:{}, 
       status:{
         loadingItem:'',
       },
@@ -112,8 +110,7 @@ export default{
       vm.isLoading=true;
       this.$http.get(url).then((response) => {
         console.log(response);
-        vm.product=response.data.product;
-        vm.product.category=response.data.product.category;  //testing  
+        vm.product=response.data.product;         
         vm.isLoading=false;  
       });      
     },

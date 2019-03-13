@@ -17,6 +17,8 @@ import App from './App';
 import router from './router';
 import './bus';
 import currencyFilter from './filters/currency';
+import timestampFilter from './filters/timestamp';
+
 
 Vue.config.productionTip = false;
 Vue.use(VueAxios, axios);
@@ -28,6 +30,7 @@ axios.defaults.withCredentials=true;
 
 Vue.component('Loading', Loading);        //在全域啟用
 Vue.filter('currency', currencyFilter);
+Vue.filter('timestamp', timestampFilter);
 
 new Vue({
   el: '#app',
