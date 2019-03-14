@@ -24,7 +24,7 @@
                 </tr>
               </thead>
               <tbody v-for="item in order.products" :key="item.id">
-                <tr >
+                <tr>
                   <td class="align-middle">
                     <img :src="`${item.product.imageUrl}`" 
                       style="height: 100px; background-size: cover; background-position: center"/>
@@ -44,19 +44,15 @@
                   <td class="text-right">
                     <strong>{{item.total+100|currency}}</strong>
                   </td>
-                </tr>                
-                <tr class="text-success" v-if="item.final_total!==item.total">
-                  <td colspan="3" class="text-right">折扣</td>
-                  <td class="text-right">
-                    <strong>{{100-item.coupon.percent}}%</strong>
-                  </td>
+                </tr>                  
+                <tr v-if="item.final_total!==item.total">
+                  <td class="text-right text-success" colspan="3">折扣價</td>  
+                  <td class="text-right text-success">{{item.final_total|currency}}</td>  
                 </tr>
-                <tr>
-                  <td colspan="3" class="text-right">總計</td><!--v-if-->
-                  <td class="text-right">
-                    <strong>{{`${(item.total+100)*(100-item.coupon.percent)*1/100}`|currency}}</strong>
-                  </td>
-                </tr>
+                <tr v-if="item.total+100-item.final_total!==100">  
+                  <td class="text-right" colspan="3">總計</td>  
+                  <td class="text-right">{{item.total+100-item.final_total|currency}}</td>                
+                </tr>  
               </tbody>
           </table>
           

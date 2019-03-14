@@ -65,18 +65,21 @@
         </tbody>
         <tfoot>
           <tr>
+            <td colspan="3" class="text-right">運費</td>
+            <td class="text-right">$100</td>  
+          </tr>
+          <tr>
             <td class="text-right" colspan="3">合計</td>
-            <td class="text-right">{{cart.total}}</td>          
+            <td class="text-right">{{cart.total+100|currency}}</td>          
           </tr>          
           <tr v-if="cart.final_total!==cart.total">
             <td class="text-right text-success" colspan="3">折扣價</td>
-            <td class="text-right text-success">{{cart.final_total}}</td>
+            <td class="text-right text-success">{{cart.final_total|currency}}</td>
           </tr>
-          <tr><!--v-if="cart.final_total!==''" 如果折扣價有出現則顯示，測試中-->  
+          <tr v-if="cart.total+100-cart.final_total!==100">  
             <td class="text-right" colspan="3">總計</td>  
-            <td class="text-right">{{cart.total-cart.final_total}}</td>          
-          </tr>          
-
+            <td class="text-right">{{cart.total+100-cart.final_total|currency}}</td>                
+          </tr>        
         </tfoot>
       </table>
 
