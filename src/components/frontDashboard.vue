@@ -64,21 +64,20 @@
   <footer class="bg-dark text-white py-3">
     <div class="container">
       <ul class="list-inline text-center">
-        <div class="input-group mb-3 w-50 mx-auto">
-          <h5>Contact us</h5>
-          <input type="text" class="form-control ml-2" placeholder="Enter your email">          
-          <div class="input-group-append">
-            <button class="btn btn-secondary rounded-0">Go</button>
-          </div>
+        <div class="input-group mb-3 w-50 mx-auto col-md-10 col-4">
+          <label for="email" class="h5">Contact us</label>
+          <input type="email" class="form-control ml-2" placeholder="Enter your email"> 
+          <button class="btn btn-secondary rounded-0">Go</button>   
         </div>
-        <li class="list-inline-item">
+        <li class="list-inline-item" @click="ig">
           <a class="text-white" href="#"><i class="fab fa-instagram"></i>&ensp;Instagram</a>
         </li>
-        <li class="list-inline-item">
+        <li class="list-inline-item" @click="fb">  
           <a class="text-white" href="#"><i class="fab fa-facebook"></i>&ensp;Facebook</a>  
         </li>
-        <li class="list-inline-item">
-          <a class="text-white" href="#"><i class="fab fa-line"></i>&ensp;Line</a>   
+        <li class="list-inline-item" @click="line">
+          <a class="text-white" href="#">
+          <i class="fab fa-line"></i>&ensp;Line</a>   
         </li>
       </ul>
       <p class="text-center">© Copright 2019 Outdoor Shop
@@ -137,6 +136,15 @@ export default{
         }
         
       });
+    },
+    ig(){
+      window.open('https://www.instagram.com/');   
+    },
+    fb(){
+      window.open('https://www.facebook.com/');   
+    },
+    line(){
+      window.open('https://line.me/zh-hant/download');   
     },
 
   },

@@ -49,7 +49,7 @@
                   <td class="text-right text-success" colspan="3">折扣價</td>  
                   <td class="text-right text-success">{{item.final_total|currency}}</td>  
                 </tr>
-                <tr v-if="item.total+100-item.final_total!==100">  
+                <tr v-if="item.total+100-item.final_total!==100">    
                   <td class="text-right" colspan="3">總計</td>  
                   <td class="text-right">{{item.total+100-item.final_total|currency}}</td>                
                 </tr>  

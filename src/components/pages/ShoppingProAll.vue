@@ -14,19 +14,7 @@
           </li> 
         </div>
       </div>
-      <div class="col-md-9">
-        <div class="d-flex justify-content-end mb-4">
-          <!-- Search bar -->
-          <form class="form-inline my-3 my-lg-0">
-            <div class="input-group">
-              <input class="form-control rounded-0" type="text" placeholder="Search" aria-label="Search">
-              <div class="input-group-append">
-                <button class="btn btn-outline-secondary rounded-0" type="submit">
-                  <i class="fa fa-search" aria-hidden="true"></i> Search</button>
-              </div>
-            </div>
-          </form>
-        </div>
+      <div class="col-md-9">        
         <!-- 主要商品列表 (Card) -->
         <div class="row mt-4">
           <div class="col-md-4 mb-4" v-for="item in products" :key="item.id">

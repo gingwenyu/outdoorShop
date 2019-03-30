@@ -78,17 +78,20 @@
               <input type="text" class="form-control" id="title"
                 v-model="tempCoupons.title" 
                 placeholder="請輸入標題">
-
+            </div>    
+            <div class="form-group">
               <label for="code">優惠碼</label>
               <input type="text" class="form-control" id="code"
                 v-model="tempCoupons.code"    
                 placeholder="code">    
-
+            </div>    
+            <div class="form-group">
               <label for="date">到期日</label>
               <input type="date" class="form-control" id="date"
                 v-model="tempCoupons.due_date"  
                 placeholder="date"> 
-
+            </div>    
+            <div class="form-group">
               <label for="percent">折扣百分比</label>
               <input type="number" class="form-control" id="percent"
                 v-model="tempCoupons.percent"  
@@ -97,10 +100,10 @@
 
             <div class="form-group">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox"
+                <input class="form-check-input" type="checkbox"   
                   id="is_enabled" v-model="tempCoupons.is_enabled"
                   :true-value="1" :false-value="0">                      
-                <label class="form-check-label" for="is_enabled">
+                <label class="form-check-label" for="is_enabled">    
                   是否啟用
                 </label>
               </div>
@@ -126,7 +129,7 @@
             </button>
           </div>
           <div class="modal-body">
-            是否刪除 <strong class="text-danger">{{ deltitle }}</strong>(刪除後將無法恢復)。 <!--在modal上無法顯示商品名稱-->
+            是否刪除 <strong class="text-danger">{{ deltitle }}</strong>(刪除後將無法恢復)。
           </div>
           <div class="modal-footer">  <!--testing-->
             <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">取消</button>

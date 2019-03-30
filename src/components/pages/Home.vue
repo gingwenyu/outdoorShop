@@ -5,7 +5,7 @@
     <div class="container ">
       <div class="p-3 bg-lighter text-right text-light">
         <h1 class="font-weight-bold">Enjoy the outdoor activities!</h1>
-        <p class="lead"><span v-html="longdash"></span>Just do it.</p>        
+        <p class="lead"><span v-html="longdash"></span>Just do it.</p>          
         <router-link to="/front/shopping_proall">
           <button class="btn btn-outline-success btn-sm rounded-0">more detail</button>
         </router-link> 
@@ -19,6 +19,9 @@
       <div class="col-sm-8 col-md-12">
         <swiper :options="swiperOption">
           <swiper-slide v-for="item in products" :key="item.id">
+            <!--testing
+            <ProductList/> --> 
+            
             <div class="card border-0">
               <div style="height: 220px; background-size: cover; background-position: center"
                  :style="{backgroundImage:`url(${item.imageUrl})`}">
@@ -36,7 +39,7 @@
               </div>
             </div>
             <div class="card-footer d-flex mb-3">
-              <router-link to="/front/shopping_product/:id">
+              <router-link :to="`${seemore}`">
                 <button type="button" class="btn btn-outline-secondary btn-sm"
                   @click="getProduct(item.id)">
                   <i class="fas fa-spinner fa-spin" v-if="status.loadingItem===item.id"></i>
@@ -50,6 +53,7 @@
               </button>
             </div>
       </div>
+          
           </swiper-slide>
             <div class="swiper-pagination" slot="pagination"></div>
             <div class="swiper-button-prev" slot="button-prev"></div>
@@ -75,7 +79,12 @@
 </template>
 
 <script>
+  //import ProductList from './productList';
+
   export default {
+    //components:{    
+    //  ProductList, 
+    //},
     name: 'carrousel',
     data() {
       return {
@@ -85,7 +94,8 @@
         status:{
           loadingItem:'',
         },
-        cart:{},   
+        cart:{}, 
+        seemore:'',  
         isLoading:false,
         swiperOption: {
           slidesPerView: 3,
@@ -133,7 +143,8 @@
           console.log(response);
           if(response.data.success){
             vm.status.loadingItem='';
-            vm.$router.push(`/front/shopping_product/${response.data.product.id}`);  
+            vm.$router.push(`/front/shopping_product/${response.data.product.id}`); 
+            vm.seemore='/front/shopping_product/`${response.data.product.id}`';   
           }
         });
       },
@@ -153,7 +164,7 @@
           console.log(response);
           vm.status.loadingItem='';
           //重新整理
-          this.$router.go(0);          
+          this.$router.go(0);            
         });  
       },
       

@@ -3,7 +3,7 @@
     <loading :active.sync="isLoading"></loading>
     <div class="container main-contant py-5">
       <!--結帳流程-->
-      <h1 class="text-center mb-3 text-secondary">結帳</h1>
+      <h1 class="text-center mb-3 text-secondary">結帳</h1>   
       <section class="form-row align-items-center text-center">
         <div class="col">
           <div class="alert alert-success alert-rounded mb-0" role="alert">
@@ -90,19 +90,19 @@
             </table>
           </div>
 
-          <div class="input-group my-3">
+          <div class="input-group my-3">  
             <input type="text" class="form-control" v-model="coupon_code" placeholder="請輸入優惠碼">
-            <button type="button" class="btn btn-outline-secondary"
-            @click="addCouponCode()">
-              套用優惠碼
-            </button>
+            <div class="input-group-append">
+              <button type="button" class="btn btn-outline-secondary rounded-0"   
+                @click="addCouponCode()">套用優惠碼  
+              </button>
+            </div>  
           </div>
-
 
           <h5 class="py-3 mt-5 mb-2 text-center bg-light">
             訂購人資訊
           </h5>
-          <form id="needs-validation" @submit.prevent="createOrder()">
+          <form id="needs-validation" @submit.prevent="createOrder()">   
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label for="name">姓名</label>

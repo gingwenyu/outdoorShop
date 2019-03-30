@@ -21,8 +21,10 @@
           <td>{{item.create_at|timestamp}}</td>
           <td v-if="item.user">{{item.user.email}}</td>          
           <!--<td>{{item.products(`${item.id}`).product.title}}</td>-->     
-          <td v-for="el in item.products" :key="el.id">
-            {{el.product.title}}<br>X {{el.qty}}{{el.product.unit}}  
+          <td>
+            <span v-for="el in item.products" :key="el.id">
+              {{el.product.title}}X{{el.qty}}{{el.product.unit}} <br>   
+            </span>              
           </td>            
           <td class="text-right">{{item.total}}</td>
           <td>
@@ -78,23 +80,25 @@
               <input type="date" class="form-control" id=""
                 v-model="tempOrders.create_at" 
                 placeholder="date">
-              
+            </div>    
+            <div class="form-group">  
               <label v-if="tempOrders.user" for="">Email</label>
               <input type="email" class="form-control" id=""
                 v-if="tempOrders.user"  
                 v-model="tempOrders.user.email"
                 placeholder="email">
-
+            </div>    
+            <div class="form-group">
               <label for="">購買品項</label>
               <input type="text" class="form-control" id=""
                 v-model="tempOrders.products" 
                 placeholder="item">
-
+            </div>    
+            <div class="form-group">
               <label for="">應付金額</label>
               <input type="number" class="form-control" id=""
                 v-model="tempOrders.total" 
                 placeholder="total">
-
             </div>
 
             <div class="form-group">
@@ -107,6 +111,7 @@
                 </label>
               </div>
             </div>
+
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">取消</button>
