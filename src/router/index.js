@@ -3,7 +3,6 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 
 //自訂的分頁元件
-
 import frontDashboard from '@/components/frontDashboard';
 import Home from '@/components/pages/Home';
 import ShoppingProAll from '@/components/pages/ShoppingProAll';

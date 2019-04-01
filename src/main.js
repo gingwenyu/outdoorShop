@@ -8,8 +8,9 @@ import 'vue-loading-overlay/dist/vue-loading.css';
 import 'bootstrap';
 import 'jquery';
 import VeeValidate from 'vee-validate';
-import zhTWValidate from 'vee-validate/dist/locale/zh_TW'; 
+//import zhTWValidate from 'vee-validate/dist/locale/zh_TW'; 
 import VueAwesomeSwiper from 'vue-awesome-swiper'
+import VueI18n from 'vue-i18n'; Vue.use(VueI18n);
 // require styles
 import 'swiper/dist/css/swiper.css'
 
@@ -22,9 +23,17 @@ import timestampFilter from './filters/timestamp';
 
 Vue.config.productionTip = false;
 Vue.use(VueAxios, axios);
-Vue.use(VeeValidate);
-VeeValidate.Validator.localize('zh_TW', zhTWValidate);
-Vue.use(VueAwesomeSwiper)
+Vue.use(VueAwesomeSwiper);
+
+const i18n = new VueI18n({
+  locale: 'zhTW'
+});
+Vue.use(VeeValidate, {
+  i18n,
+  dictionary: {
+    zhTW
+  }
+});
 
 axios.defaults.withCredentials=true;
 
@@ -33,6 +42,7 @@ Vue.filter('currency', currencyFilter);
 Vue.filter('timestamp', timestampFilter);
 
 new Vue({
+  i18n, 
   el: '#app',
   components: { App },
   template: '<App/>',

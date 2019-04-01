@@ -14,11 +14,13 @@
         <li class="nav-item">          
           <router-link class="nav-link text-light px-3" to="/front/shopping_proall">Product</router-link>
         </li>
+        <!--
         <li class="nav-item">
           <router-link class="nav-link text-light px-3" to="/">Administrator</router-link>
-        </li>
+        </li>-->
       </ul>
     </div>
+
     <!-- 購物車內的數量 (Button 內包含 icon, 數量 badge) -->
     <div class="dropdown ml-auto">
       <button class="btn btn-sm btn-cart" data-toggle="dropdown" data-flip="false">
@@ -31,8 +33,7 @@
         <table class="table table-sm">
           <tbody>
             <tr v-for="item in cart.carts" :key="item.id">   
-              <td class="align-middle">{{item.product.title}}</td>
-              <!--testing-->
+              <td class="align-middle">{{item.product.title}}</td>              
               <td class="align-middle">{{item.qty}}{{item.product.unit}}</td>
               <td class="align-middle text-right">{{item.qty*item.product.price|currency}}</td>
               <td class="align-middle">
@@ -96,7 +97,7 @@ import Alert from './AlertMessage';
 
 export default{
   components:{    
-    Alert, 
+    Alert,   
   },
   data(){
     return{
@@ -150,7 +151,19 @@ export default{
   },
   
   created(){
-    this.getCart();   
+    //this.getCart();   
+
+    //testing
+    const vm = this;    
+    //vm.$bus.$on('getCartval',(cartVal,countVal) => { 
+    //  vm.getCart(cartVal,countVal);       
+    //}) 
+
+    //這行可以正常使用
+    vm.$bus.$emit(`${this.getCart()}`); 
+
+    //testing
+    //vm.$bus.$emit('getCartval',response.data.data,response.data.data.carts.length);         
   },
 
 };

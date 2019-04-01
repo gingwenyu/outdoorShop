@@ -16,7 +16,7 @@
   <div class="container">
     <h3 class="text-center pb-2">推薦商品</h3>   
     <div class="row"> 
-      <div class="col-sm-8 col-md-12">
+      <div class="col-12">  
         <swiper :options="swiperOption">
           <swiper-slide v-for="item in products" :key="item.id">
             <!--testing
@@ -68,12 +68,22 @@
   
   <div class="container">
     <h2 class="text-center">Our Story</h2>
-    <p class="mb-5">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Iste corporis unde quam, officiis minus vel cupiditate asperiores totam modi! Beatae dolorem possimus dicta earum tempora nisi porro dignissimos. Porro, cum.
-    Est fugiat suscipit quibusdam provident distinctio facilis animi necessitatibus molestiae nobis, ipsa minus corporis dolorem dolor id tenetur, repudiandae incidunt laborum repellat eum esse reprehenderit ad dolores. Beatae, non ullam?
-    Nobis beatae eum reprehenderit, fuga debitis provident animi laudantium aperiam quod ipsam magni illum culpa numquam eaque, labore, voluptates quae perspiciatis dignissimos deserunt. Nemo sequi exercitationem voluptatum explicabo praesentium ducimus!
-    Ex saepe aperiam illo at accusamus vitae magni expedita soluta quos eos doloremque, veniam libero placeat rerum, beatae quasi corporis mollitia, autem aspernatur fuga dignissimos molestias! Illo sequi placeat excepturi.
-    Architecto alias aperiam illo, neque at commodi blanditiis! Porro delectus unde aperiam itaque, id nemo eius harum natus nulla iure velit sapiente cumque sed maiores facilis accusamus quia nam animi?
-    Cupiditate reiciendis doloremque soluta provident veritatis alias nostrum dignissimos ut neque delectus? Blanditiis veniam placeat soluta et autem minima consectetur eaque quisquam provident? Expedita aut qui id, voluptas aliquid ipsam.</p>
+    <p class="mb-5">
+        &emsp;Welcome to Trekkinn, your favorite store to buy trekking products from featured brands as
+        Salomon, The North Face, Vaude, Salewa, Merrell, Trangoworld, Garmin, Columbia, Suunto and even more.
+        Our main principles are cooperation, fair prices and good service. We only offer products which are of a
+        quality we are convinced of. Trekkinn proposes exclusive models of leading international brands and 
+        offers you the chance to get cheap mountain gear. Trekking is one of the most completed outdoor stores to 
+        offer you everything you need to enjoy your goals in the mountain like camping gear and accessories, 
+        backpacking, outdoor clothing, hiking gear, climbing gear… 
+        <br>
+        &emsp;Furthermore we guarantee punctual and fast delivery. Our team works carefully to offer a wide range of 
+        items of trekking and climbing equipment with particular attention to the value. You´ll find everything 
+        from camping tents, backpacks, trekking poles, hiking shoes/boots, sleeping bags, climbing gear for the 
+        whole family, mountain lovers and even for professionals. Our goal is that you enjoy a safe equipment 
+        in which you feel comfortable and to enjoy your outdoor activities. The satisfaction of our customers 
+        is our absolute maximum.   
+    </p>
   </div>
 </div>
 </template>
@@ -110,15 +120,24 @@
           },
         },
         breakpoints: {
-          1024: {
-            slidesPerView: 2,
-            spaceBetween: 30
+            1024: {
+              slidesPerView: 3,
+              spaceBetween: 40
+            },
+            768: {
+              slidesPerView: 3,
+              spaceBetween: 30
+            },
+            640: {
+              slidesPerView: 2,
+              spaceBetween: 20
+            },
+            320: {
+              slidesPerView: 1,
+              spaceBetween: 10
+            }
           },
-          768: {
-            slidesPerView: 1,
-            spaceBetween: 30
-          }
-        },
+        
       }
     },
     methods:{
@@ -164,7 +183,10 @@
           console.log(response);
           vm.status.loadingItem='';
           //重新整理
-          this.$router.go(0);            
+          this.$router.go(0); 
+
+          //testing            
+          //vm.$bus.$emit('getCartval',response.data.data,response.data.data.carts.length);          
         });  
       },
       

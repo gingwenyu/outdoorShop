@@ -50,8 +50,10 @@ export default {
     // status: 樣式，預設值為 warning
      vm.$bus.$on('messsage:push', (message, status = 'warning') => {
        vm.updateMessage(message, status);
-     });
+     });    
     // vm.$bus.$emit('message:push');
+    //在其他檔案使用
+    //this.$bus.$emit('messsage:push',response.data.message,'danger');
   },
 };
 </script>
