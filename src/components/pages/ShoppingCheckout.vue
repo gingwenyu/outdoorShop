@@ -106,30 +106,24 @@
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label for="name">姓名</label>
-                <div class="input-group mb-3">
                   <input type="text" class="form-control" name="name" v-validate="'required'" placeholder="請輸入姓名" id=""
                     v-model="form.user.name" :class="{'is-invalid':errors.has('name')}">
-                  <span class="text-danger" v-if="errors.has('name')">姓名必須填寫</span>  
-                </div>
+                  <span class="text-danger" v-if="errors.has('name')">姓名必須填寫</span>                  
               </div>
               <div class="form-group col-md-6">
-                <label for="">電話</label>
-                <div class="input-group mb-3">
+                <label for="">電話</label>                
                   <input type="tel" class="form-control" name="tel" v-validate="'required'" placeholder="請輸入電話" id=""
                     v-model="form.user.tel" :class="{'is-invalid':errors.has('tel')}">
-                  <span class="text-danger" v-if="errors.has('tel')">電話必須填寫</span>  
-                </div>
+                  <span class="text-danger" v-if="errors.has('tel')">電話必須填寫</span>                  
               </div>
             </div>
             <div class="form-group">
-              <label for="">Email</label>
-              <div class="input-group mb-3">
+              <label for="">Email</label>              
                 <input type="email" class="form-control" name="email" v-validate="'required|email'" placeholder="請輸入email" id=""
                   v-model="form.user.email" :class="{'is-invalid':errors.has('email')}">
                 <span class="text-danger" v-if="errors.has('email')">
                   {{ errors.first('email') }}
-                </span> 
-              </div>
+                </span>               
             </div>
             <div class="form-row">
               <div class="form-group col-md-4">
@@ -157,11 +151,11 @@
             </div>
             <div class="form-group">
               <label for="">地址</label>
-              <div class="input-group mb-3">
+             
                 <input type="address" class="form-control" name="add" v-validate="'required'" placeholder="請輸入地址" id=""
                   v-model="form.user.address" :class="{'is-invalid':errors.has('add')}">
                 <span class="text-danger" v-if="errors.has('add')">地址必須填寫</span>
-              </div>
+              
             </div>
             <div class="text-right">
               <router-link class="btn btn-secondary" to="/front/shopping_proall">

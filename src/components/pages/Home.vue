@@ -89,12 +89,12 @@
 </template>
 
 <script>
-  //import ProductList from './productList';
+  import ProductList from './productList';
 
   export default {
-    //components:{    
-    //  ProductList, 
-    //},
+    components:{    
+      ProductList, 
+    },  
     name: 'carrousel',
     data() {
       return {
@@ -118,8 +118,7 @@
             nextEl: '.swiper-button-next',
             prevEl: '.swiper-button-prev'
           },
-        },
-        breakpoints: {
+          breakpoints: {
             1024: {
               slidesPerView: 3,
               spaceBetween: 40
@@ -135,9 +134,10 @@
             320: {
               slidesPerView: 1,
               spaceBetween: 10
-            }
+            },
           },
-        
+        },
+            
       }
     },
     methods:{
@@ -171,7 +171,7 @@
         const url =`${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart`;  
         //加入購物車/api/:api_path/cart
         const vm=this;
-        vm.status.loadingItem=id;
+        vm.status.loadingItem=id;        
         const cart={
           product_id:id,
           qty,
@@ -180,13 +180,14 @@
           },    
         }
         this.$http.post(url,{data:cart}).then((response) => {
-          console.log(response);
-          vm.status.loadingItem='';
+          console.log(response);          
+          //vm.status.loadingItem='';     //暫時關閉 
           //重新整理
-          this.$router.go(0); 
+          //this.$router.go(0); 
 
-          //testing            
-          //vm.$bus.$emit('getCartval',response.data.data,response.data.data.carts.length);          
+          //testing                 
+          this.$bus.$emit('getCartval');           
+          
         });  
       },
       
@@ -198,7 +199,7 @@
     },
     
     created(){
-      this.getProducts();
+      this.getProducts();      
     },
     
   };

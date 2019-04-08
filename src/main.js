@@ -9,6 +9,7 @@ import 'bootstrap';
 import 'jquery';
 import VeeValidate from 'vee-validate';
 //import zhTWValidate from 'vee-validate/dist/locale/zh_TW'; 
+import zhTW from 'vee-validate/dist/locale/zh_TW'; // 語系檔案，可從 node_modules 內找到
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import VueI18n from 'vue-i18n'; Vue.use(VueI18n);
 // require styles

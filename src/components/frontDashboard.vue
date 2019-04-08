@@ -151,19 +151,21 @@ export default{
   },
   
   created(){
-    //this.getCart();   
+    //origin
+    //this.getCart();  
 
-    //testing
-    const vm = this;    
-    //vm.$bus.$on('getCartval',(cartVal,countVal) => { 
-    //  vm.getCart(cartVal,countVal);       
-    //}) 
+    //testing內層
+    //const vm = this;    
+    //vm.$bus.$on('getCartval',() => { 
+    //  vm.getCart();       
+    //}); 
 
-    //這行可以正常使用
-    vm.$bus.$emit(`${this.getCart()}`); 
+    //search testing 這行可以正常使用
+    const vm = this; 
+    this.$bus.$on('getCartval', vm.getCart());  
 
-    //testing
-    //vm.$bus.$emit('getCartval',response.data.data,response.data.data.carts.length);         
+    //testing外層
+    //this.$bus.$emit('getCartval');       
   },
 
 };
