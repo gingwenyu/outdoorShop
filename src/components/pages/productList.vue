@@ -1,8 +1,8 @@
 <template>
   <div>
-    <swiper-slide v-for="item in products" :key="item.id"> 
-      <product-card class="card border-0" v-for="(el, key) in products" :item="el" :key="key">   
-        
+      <!--<loading :active.sync="isLoading"></loading>-->
+    
+      <div class="card border-0">           
         <div style="height: 220px; background-size: cover; background-position: center"
           :style="{backgroundImage:`url(${item.imageUrl})`}"></div>
         <div class="card-body">
@@ -31,54 +31,15 @@
               加到購物車
           </button>
         </div>
-      </product-card>  
+      </div>  
 
-    </swiper-slide>
+    
   </div>
 </template>
 
-<!--<script type='text/x-template' id='productCard'>
-  <div style="height: 220px; background-size: cover; background-position: center"
-          :style="{backgroundImage:`url(${item.imageUrl})`}"></div>
-        <div class="card-body">
-          <span class="badge badge-secondary float-right ml-2">{{item.category}}</span>
-          <h5 class="card-title">
-            <a href="#" class="text-dark">{{item.title}}</a>
-          </h5>
-          <p class="card-text">{{item.content}}</p>
-          <div class="d-flex justify-content-between align-items-baseline">
-            <div class="h5" v-if="!item.price">{{item.origin_price}}</div> 
-            <del class="h6" v-if="item.price">{{item.origin_price}}</del>
-            <div class="h5" v-if="item.price">{{item.price}}</div>
-          </div>
-        </div>
-        <div class="card-footer d-flex mb-3">
-          <router-link :to="`${seemore}`">
-            <button type="button" class="btn btn-outline-secondary btn-sm"
-              @click="getProduct(item.id)">
-                <i class="fas fa-spinner fa-spin" v-if="status.loadingItem===item.id"></i>
-                查看更多
-            </button>
-          </router-link>
-          <button type="button" class="btn btn-outline-danger btn-sm ml-auto"
-            @click="addtoCart(item.id)">
-              <i class="fas fa-spinner fa-spin" v-if="status.loadingItem===item.id"></i>
-              加到購物車
-          </button>
-        </div>
-</script>  -->
-
 <script>
-//Vue.component('product-card', {
-//  props: ['item'],
-//  template: '#productCard', 
-//})
-
-export default {  
-  components:{    
-    props: ['item'],
-    //template: '#productCard', 
-  },  
+export default { 
+  props: ['item'], 
   data() {
     return {
       products:[], 
@@ -87,8 +48,7 @@ export default {
         loadingItem:'',
       },
       cart:{}, 
-      seemore:'',  
-      isLoading:false,  
+      seemore:'',               
     };
   },
   methods:{
@@ -132,9 +92,11 @@ export default {
         }
         this.$http.post(url,{data:cart}).then((response) => {
           console.log(response);
-          vm.status.loadingItem='';
+          vm.status.loadingItem=''; 
           //重新整理
-          this.$router.go(0);          
+          //this.$router.go(0);             
+                          
+          this.$bus.$emit('getCartval');       
         });  
       },
       
@@ -143,7 +105,6 @@ export default {
     created(){
       this.getProducts();
     },    
-
 
 };
 </script>

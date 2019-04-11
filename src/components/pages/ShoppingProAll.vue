@@ -1,6 +1,6 @@
 <template>
 <div>
-  <loading :active.sync="isLoading"></loading>
+  <loading :active.sync="isLoading"></loading> 
   <!--main content start -->
   <div class="container mt-5">
     <div class="row">
@@ -18,37 +18,7 @@
         <!-- 主要商品列表 (Card) -->
         <div class="row mt-4">
           <div class="col-md-4 mb-4" v-for="item in products" :key="item.id">
-            <div class="card border-0 shadow-sm">
-              <div style="height: 180px; background-size: cover; background-position: center"
-                  :style="{backgroundImage:`url(${item.imageUrl})`}">
-            </div>
-              <div class="card-body">
-                <span class="badge badge-secondary float-right ml-2">{{item.category}}</span>
-                <h5 class="card-title">
-                  <a class="text-dark">{{item.title}}</a>
-                </h5>
-                <p class="card-text">{{item.content}}</p>
-                <div class="d-flex justify-content-between align-items-baseline">
-                  <div class="h5" v-if="!item.price">{{item.origin_price}}</div> 
-                  <del class="h6" v-if="item.price">{{item.origin_price}}</del>
-                  <div class="h5" v-if="item.price">{{item.price}}</div>
-                </div>
-              </div>
-              <div class="card-footer d-flex"> 
-                <router-link :to="productpage"><!--origin  /front/shopping_product/:id-->   
-                  <button type="button" class="btn btn-outline-secondary btn-sm"
-                    @click="getProduct(item.id)">
-                    <i class="fas fa-spinner fa-spin" v-if="status.loadingItem===item.id"></i>
-                    查看更多
-                  </button>
-                </router-link>
-                <button type="button" class="btn btn-outline-danger btn-sm ml-auto"
-                  @click="addtoCart(item.id)">
-                  <i class="fas fa-spinner fa-spin" v-if="status.loadingItem===item.id"></i>
-                  加到購物車
-                </button>
-              </div>
-            </div>
+            <ProductList :item="item"/>            
           </div>
         </div> 
         <!-- 主要商品列表 (Card) end -->
@@ -105,13 +75,18 @@
     </div>
   </div>
 
+ 
 </div>
 </template>
 
 <script>
 import $ from 'jquery';
+import ProductList from './productList';
 
-export default{
+export default{  
+  components:{
+    ProductList,
+  },
   data(){
     return{
       products:[], 
@@ -119,7 +94,7 @@ export default{
       status:{
         loadingItem:'',  
       },
-      cart:{},   
+      //cart:{},   
       isLoading:false,      
       productpage:'',
       pagination:{},
@@ -197,6 +172,7 @@ export default{
         }
       });
     },
+    /*
     addtoCart(id,qty=1,product){
       const url =`${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart`;  
       //加入購物車/api/:api_path/cart
@@ -215,7 +191,7 @@ export default{
         //重新整理
         this.$router.go(0);
       });  
-    },
+    }, */
     
   },
   

@@ -4,3 +4,22 @@
 
 @import "./_dashboard";
 //@import "./_frontDashboard";
+
+.jumbotron-homeimg{
+  background-image: url(https://images.unsplash.com/photo-1490611938744-b7bfa268923e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1187&q=80);
+}
+.bg-cover {
+  background-size: cover;
+  background-position: center center;
+  position: relative;
+}    
+
+.parallax {  
+  background-image: url(https://images.unsplash.com/photo-1455264646464-fb8b45ab4c57?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=80); 
+  height: 100%; 
+  /* Create the parallax scrolling effect */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;  
+}   

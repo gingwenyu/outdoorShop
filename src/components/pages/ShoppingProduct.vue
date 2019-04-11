@@ -113,9 +113,7 @@ export default{
         vm.product=response.data.product;         
         vm.isLoading=false;  
       });      
-    },
-    //選擇1以上的數字時，以下測試，把num的值帶入qty，結果 num undefined  
-    //addtoCart(id,qty=product.num,product)
+    },         
     addtoCart(id,qty=1,product){  
       const url =`${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart`;  
       //加入購物車/api/:api_path/cart              
@@ -132,7 +130,9 @@ export default{
         console.log(response);
         vm.status.loadingItem='';
         //重新整理
-        this.$router.go(0);
+        //this.$router.go(0);
+
+        this.$bus.$emit('getCartval');  
       });  
     },
     
@@ -144,7 +144,6 @@ export default{
     this.getProduct();
   },
  
-};
-//loading 畫面 直到按下重新整理   
+};  
 </script>
 

@@ -83,10 +83,11 @@ $theme-colors: map-merge(
     "secondary":  $secondary,
     "success":    $success,
     "info":       $info,
-    "warning":    $warning,
+    "warning":    #fff69b,
     "danger":     $danger,
     "light":      $light,
-    "dark":       $dark
+    "dark":       $dark,
+    "gray":       rgba(0,0,0,0.35),    
   ),
   $theme-colors
 );
@@ -134,8 +135,7 @@ $spacers: map-merge(
     2: ($spacer * .5),
     3: $spacer,
     4: ($spacer * 1.5),
-    5: ($spacer * 3),
-    6: ($spacer * 13)  //only for home page
+    5: ($spacer * 3),   
   ),
   $spacers
 );
@@ -792,16 +792,9 @@ $pagination-disabled-border-color:  $gray-300 !default;
 
 // Jumbotron
 
-$jumbotron-padding:                 2rem !default;
+$jumbotron-padding:                 5rem !default;
 $jumbotron-bg:                      $gray-200 !default;
-.jumbotron-homeimg{
-  background-image: url(https://images.unsplash.com/photo-1490611938744-b7bfa268923e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1187&q=80);
-}
-.bg-cover {
-  background-size: cover;
-  background-position: center center;
-  position: relative;
-}    
+
 // Cards
 
 $card-spacer-y:                     .75rem !default;
