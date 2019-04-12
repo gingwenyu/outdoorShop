@@ -81,7 +81,7 @@
 
 <script>
 import $ from 'jquery';
-import ProductList from './productList';
+import ProductList from './productList';  
 
 export default{  
   components:{

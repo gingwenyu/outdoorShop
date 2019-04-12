@@ -15,7 +15,7 @@ import Products from '@/components/pages/Products';
 import Orders from '@/components/pages/Orders';
 import Coupons from '@/components/pages/Coupons';
 import customerOrder from '@/components/pages/CustomerOrders';
-import CustomerCheckout from '@/components/pages/CustomerCheckout';
+import CustomerCheckout from '@/components/pages/CustomerCheckout';          
 
 Vue.use(VueRouter);
 

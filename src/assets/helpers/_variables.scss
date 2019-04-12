@@ -83,7 +83,7 @@ $theme-colors: map-merge(
     "secondary":  $secondary,
     "success":    $success,
     "info":       $info,
-    "warning":    #fff69b,
+    "warning":    rgba(255, 246, 155,0.7),
     "danger":     $danger,
     "light":      $light,
     "dark":       $dark,

@@ -65,7 +65,7 @@
   <footer class="bg-dark text-white py-3">
     <div class="container">
       <ul class="list-inline text-center">
-        <div class="input-group mb-3 w-50 mx-auto col-md-10 col-4">
+        <div class="input-group mb-3 w-50 mx-auto col-md-10 col-12">  
           <label for="email" class="h5">Contact us</label>
           <input type="email" class="form-control ml-2" placeholder="Enter your email"> 
           <button class="btn btn-secondary rounded-0">Go</button>   
