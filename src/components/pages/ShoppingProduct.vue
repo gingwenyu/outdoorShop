@@ -8,9 +8,16 @@
             <router-link class="breadcrumb-item" to="/front/shopping_proall">
               <a href="#">商品列表</a>
             </router-link>
+            <!--testing -->
+            <router-link class="breadcrumb-item" :to="`${filterGroupTo}`"   
+              @click.prevent="productsGroup(product.category)">  
+              <a href="#">{{product.category}}</a>    
+            </router-link> 
+            <!--origin
             <li class="breadcrumb-item">
               <a href="#">{{product.category}}</a>  
             </li>
+            -->
             <li class="breadcrumb-item active" aria-current="page">{{product.title}}</li>
           </ol>
         </nav>
@@ -57,6 +64,8 @@
               </div>
 
               <div class="mt-2 text-right text-muted">
+                <img src="http://bit.ly/2Ug6ScJ " style="width:40px;height:40px;margin-top:-15px;">  
+                <i class="fab fa-cc-mastercard fa-2x"></i>
                 <i class="fab fa-cc-visa fa-2x "></i>
                 <i class="fab fa-cc-jcb fa-2x" ></i>
                 <i class="fab fa-cc-paypal fa-2x" ></i> 
@@ -71,12 +80,15 @@
             <img :src="`${product.imageUrl}`" class="img-fluid">
             
             <div class="alert alert-warning mt-4" role="alert">
-              <h4 class="text-center">購物說明</h4>  
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem molestiae delectus eveniet 
-                repalias accusamus at, consequatur iste consequuntur itaque enim id distinctio. Aut provident 
-                cum voluptates ducimus, unde rem.
-              </p>
+              <h5 class="text-center">購物說明</h5> 
+              <ul>
+                <p>出貨方式</p>    
+                <li>寄送時間：完成付款後 7 個工作天內送達(不含週六日)。</li>
+                <li>送貨方式：透過宅配(目前沒有郵寄服務)。</li>
+                <li>送貨範圍：限台灣本島地區，注意！收件地址請勿為郵政信箱。(若有台灣本島以外地區送貨需求，請事先知會)。</li>
+                <li>產品保固/售後服務：若產品本身瑕疵或運送過程導致新品瑕疵，到貨7日內可更換新品。</li>
+                <li>其他：由於與門市同步銷售，故下單前敬請來電確認是否有所需之商品。若因門市售出造成無法即時出貨請見諒，謝謝合作！</li>
+              </ul>               
             </div>
           </div>
         </div>
@@ -99,6 +111,7 @@ export default{
       },  
       ID:'', 
       isLoading:false,
+      filterGroupTo:'',         
     }; 
   },
   methods:{
@@ -135,6 +148,13 @@ export default{
         this.$bus.$emit('getCartval');  
       });  
     },
+    //testing
+    productsGroup(category){
+      let groupName=category;
+      console.log(groupName);   
+      vm.filterGroupTo='/front/shopping_proall';   
+      
+    },
     
   },
 
@@ -142,6 +162,15 @@ export default{
     this.ID = this.$route.params.id;     
     console.log(this.ID);
     this.getProduct();
+
+    //testing
+    this.$bus.$on('groupName', function(category) {
+      const vm=this;
+      vm.productsGroup(category);
+    });
+    //外層
+    //this.$bus.$emit('groupName',category);         
+
   },
  
 };  

@@ -3,10 +3,14 @@
   <loading :active.sync="isLoading"></loading>
   <!-- headers -->
   <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-    <router-link class="navbar-brand" to="/front/home">
+    <router-link class="navbar-brand bg-dark" to="/front/home">
       <i class="fas fa-campground fa-2x text-light"></i>Outdoor Shop
     </router-link>
-    <div class="collapse navbar-collapse" id="navbarNav">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">  
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">   
       <ul class="navbar-nav">
         <li class="nav-item active">
           <router-link class="nav-link text-light px-3" to="/front/home">Home</router-link>           
@@ -65,8 +69,8 @@
   <footer class="bg-dark text-white py-3">
     <div class="container">
       <ul class="list-inline text-center">
-        <div class="input-group mb-3 w-50 mx-auto col-md-10 col-12">  
-          <label for="email" class="h5">Contact us</label>
+        <div class="input-group mb-3 mx-auto col-md-10 col-12">  
+          <label for="email" class="h5 align-self-center mt-1">Contact us</label>   
           <input type="email" class="form-control ml-2" placeholder="Enter your email"> 
           <button class="btn btn-secondary rounded-0">Go</button>   
         </div>
@@ -105,7 +109,7 @@ export default{
         carts:{},   
       },
       count:{},   
-      isLoading:false,
+      isLoading:false,   
     }; 
   },
   methods:{

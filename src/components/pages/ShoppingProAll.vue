@@ -151,10 +151,14 @@ export default{
         vm.isLoading=false;  
       });
     },
-    changeCategory(item) {
+    changeCategory(item) {  
       const vm = this;
       vm.filter.str = item.name;
       console.log(vm.filter.str);
+      //外層testing
+      //this.$bus.$emit('groupName',category);
+      //console.log(this.category);  //testing  接著比對category == vm.filter.str  if/else     
+
       vm.getProducts();
     },
     getProduct(id){

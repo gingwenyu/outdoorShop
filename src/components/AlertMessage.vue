@@ -53,7 +53,7 @@ export default {
      });    
     // vm.$bus.$emit('message:push');
     //在其他檔案使用
-    //this.$bus.$emit('messsage:push',response.data.message,'danger');
+    //this.$bus.$emit('messsage:push',response.data.message,'danger');  
   },
 };
 </script>

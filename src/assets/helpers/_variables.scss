@@ -722,7 +722,9 @@ $nav-divider-margin-y:              $spacer / 2 !default;
 
 
 // Navbar
-
+.navbar-brand{
+  background-color:transparent;  //設為透明
+}
 $navbar-padding-y:                  $spacer / 2 !default;
 $navbar-padding-x:                  $spacer !default;
 

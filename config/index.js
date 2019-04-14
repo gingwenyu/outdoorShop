@@ -43,9 +43,8 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/outdoorShop',
-
-    /**
+    _assetsPublicPath: '/outdoorShop/dist/',   //   outdoorShop/dist/
+      /**
      * Source Maps
      */
 

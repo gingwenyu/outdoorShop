@@ -199,7 +199,7 @@
     },
     
     created(){
-      this.getProducts();
+      this.getProducts();    
     },
     
   };
