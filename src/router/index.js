@@ -37,7 +37,7 @@ export default new VueRouter({
           component: Home,
         },
         {
-          path: 'shopping_proall',  
+          path: 'shopping_proall',     //testing    
           name: 'ShoppingProAll',
           component: ShoppingProAll,  
         },

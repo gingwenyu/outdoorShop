@@ -8,16 +8,10 @@
             <router-link class="breadcrumb-item" to="/front/shopping_proall">
               <a href="#">商品列表</a>
             </router-link>
-            <!--testing -->
-            <router-link class="breadcrumb-item" :to="`${filterGroupTo}`"   
-              @click.prevent="productsGroup(product.category)">  
+            <!--testing -->  
+            <router-link class="breadcrumb-item" :to="`/front/shopping_proall/?category=${product.category}`" >  
               <a href="#">{{product.category}}</a>    
-            </router-link> 
-            <!--origin
-            <li class="breadcrumb-item">
-              <a href="#">{{product.category}}</a>  
-            </li>
-            -->
+            </router-link>            
             <li class="breadcrumb-item active" aria-current="page">{{product.title}}</li>
           </ol>
         </nav>
@@ -110,8 +104,7 @@ export default{
         qty:'',
       },  
       ID:'', 
-      isLoading:false,
-      filterGroupTo:'',         
+      isLoading:false,             
     }; 
   },
   methods:{
@@ -147,30 +140,14 @@ export default{
 
         this.$bus.$emit('getCartval');  
       });  
-    },
-    //testing
-    productsGroup(category){
-      let groupName=category;
-      console.log(groupName);   
-      vm.filterGroupTo='/front/shopping_proall';   
-      
-    },
+    },  
     
   },
 
   created(){
-    this.ID = this.$route.params.id;     
+    this.ID = this.$route.params.id;       
     console.log(this.ID);
-    this.getProduct();
-
-    //testing
-    this.$bus.$on('groupName', function(category) {
-      const vm=this;
-      vm.productsGroup(category);
-    });
-    //外層
-    //this.$bus.$emit('groupName',category);         
-
+    this.getProduct();   
   },
  
 };  

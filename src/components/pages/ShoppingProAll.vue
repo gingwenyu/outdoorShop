@@ -10,7 +10,9 @@
           <li class="list-group-item list-group-item-action rounded-0" 
             v-for="(item,key) in filter.list" :key='key'>
             <span :class="`${item.icon}`"></span>  
-            <a @click.prevent="changeCategory(item)">{{item.name}}</a>   
+            <a @click.prevent="changeCategory(item)"   
+               @click="productCategoryTri()" ref="myBtn">{{item.name}}
+            </a>   
           </li> 
         </div>
       </div>
@@ -107,11 +109,11 @@ export default{
           },
           {
             icon: 'fas fa-hiking',
-            name: '露營/健行',
+            name: '露營健行',
           },
           {
             icon: 'fas fa-dumbbell',
-            name: '重訓/健身',
+            name: '重訓健身',
           },
           {
             icon: 'fas fa-skiing',
@@ -119,15 +121,16 @@ export default{
           },
           {
             icon: 'fas fa-swimmer',
-            name: '衝浪/潛水',
+            name: '衝浪潛水',
           },
           {
             icon: 'fas fa-bicycle',
-            name: '鐵人三項',
+            name: '鐵人三項',   
           },
         ],
                    
       },
+      productCategory:'',
      
     }; 
   },
@@ -147,7 +150,7 @@ export default{
         }else{
           vm.products=response.data.products;  
         }
-        vm.pagination=response.data.pagination;
+        vm.pagination=response.data.pagination;         
         vm.isLoading=false;  
       });
     },
@@ -155,11 +158,18 @@ export default{
       const vm = this;
       vm.filter.str = item.name;
       console.log(vm.filter.str);
-      //外層testing
-      //this.$bus.$emit('groupName',category);
-      //console.log(this.category);  //testing  接著比對category == vm.filter.str  if/else     
-
       vm.getProducts();
+    },
+    //testing   
+    productCategoryTri(){
+      const vm = this;
+      changeCategory(item);      
+      if(vm.filter.str==vm.productCategory){     
+        console.log('we are same group');
+        const elem = this.$refs.myBtn;
+        elem.click();  
+      }
+
     },
     getProduct(id){
       const url =`${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/product/${id}`;
@@ -201,6 +211,13 @@ export default{
   
   created(){
     this.getProducts();
+    //$route.query，一个 key/value 对象，表示 URL 查询参数。例如，对于路径 /foo?user=1，则有 $route.query.user == 1，如果没有查询参数，则是个空对象。
+    this.productCategory=this.$route.query.category;     
+    console.log(this.productCategory);
+    //this.productCategoryTri();   
+    //從網址已拿到類別名稱，
+    //想做的效果：productCategoryTri()觸發按鈕changeCategory(item)，更新成分類後的畫面 
+    //問題：changeCategory(item)沒有被productCategoryTri()觸發
   },
 
 };
