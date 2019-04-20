@@ -10,9 +10,9 @@
           <li class="list-group-item list-group-item-action rounded-0" 
             v-for="(item,key) in filter.list" :key='key'>
             <span :class="`${item.icon}`"></span>  
-            <a @click.prevent="changeCategory(item)"   
-               @click="productCategoryTri()" ref="myBtn">{{item.name}}
-            </a>   
+            <a @click.prevent="changeCategory(item)"    
+               >{{item.name}}
+            </a>  <!--ref="myBtn"-->  
           </li> 
         </div>
       </div>
@@ -144,33 +144,28 @@ export default{
         console.log(response);
         if(vm.filter.str!=='全部商品'){
           let filterpro=response.data.products.filter(function(item,index,arr){
-            return item.category==vm.filter.str;  
+            return item.category==vm.filter.str;                               
         })
-          vm.products=filterpro;       
-        }else{
+          vm.products=filterpro;  
+        //單一商品頁 跳轉 商品類別群組       
+        }else if(vm.productCategory!==undefined){  
+          console.log(vm.productCategory);         //ok
+          vm.changeCategory(vm.productCategory); 
+          vm.filter.str=vm.productCategory;         
+        }
+        else{
           vm.products=response.data.products;  
         }
         vm.pagination=response.data.pagination;         
         vm.isLoading=false;  
       });
-    },
+    },    
     changeCategory(item) {  
-      const vm = this;
-      vm.filter.str = item.name;
+      const vm = this;      
+      vm.filter.str = item.name
       console.log(vm.filter.str);
-      vm.getProducts();
-    },
-    //testing   
-    productCategoryTri(){
-      const vm = this;
-      changeCategory(item);      
-      if(vm.filter.str==vm.productCategory){     
-        console.log('we are same group');
-        const elem = this.$refs.myBtn;
-        elem.click();  
-      }
-
-    },
+      vm.getProducts();                
+    },    
     getProduct(id){
       const url =`${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/product/${id}`;
       //單一商品細節/api/:api_path/product/:id  
@@ -213,11 +208,8 @@ export default{
     this.getProducts();
     //$route.query，一个 key/value 对象，表示 URL 查询参数。例如，对于路径 /foo?user=1，则有 $route.query.user == 1，如果没有查询参数，则是个空对象。
     this.productCategory=this.$route.query.category;     
-    console.log(this.productCategory);
-    //this.productCategoryTri();   
-    //從網址已拿到類別名稱，
-    //想做的效果：productCategoryTri()觸發按鈕changeCategory(item)，更新成分類後的畫面 
-    //問題：changeCategory(item)沒有被productCategoryTri()觸發
+    console.log(this.productCategory);  
+    //當this.productCategory!==undefined，表示有類別名稱
   },
 
 };
