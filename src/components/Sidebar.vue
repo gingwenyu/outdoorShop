@@ -39,6 +39,35 @@
              </li>              
            </ul>
          </div>
-       </nav>   
+       </nav> 
+       <!--testing-->
+       <div class="nav-item dropdown d-block d-md-none mt-80">
+        <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          管理員
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">          
+          <li class="dropdown-item">               
+            <router-link class="nav-link text-dark" to="/admin/products">
+              <i class="fas fa-box-open"></i>產品列表    
+            </router-link>
+          </li>      
+          <li class="dropdown-item">
+            <router-link class="nav-link text-dark" to="/admin/orders">
+              <i class="far fa-list-alt"></i>訂單列表                 
+            </router-link>
+          </li>       
+          <li class="dropdown-item">
+            <router-link class="nav-link text-dark" to="/admin/coupons">
+              <i class="fas fa-ticket-alt"></i>優惠券                
+            </router-link>
+          </li>              
+          <hr>
+          <li class="dropdown-item">    
+            <router-link class="nav-link text-dark" to="/customer_order">
+              <i class="fas fa-shopping-cart"></i>模擬訂單    
+            </router-link>
+          </li>              
+        </ul>
+      </div>  
   </div>
 </template>

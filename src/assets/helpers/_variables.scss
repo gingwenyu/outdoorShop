@@ -139,6 +139,9 @@ $spacers: map-merge(
   ),
   $spacers
 );
+.mt-80{
+  margin-top:80px;
+}
 
 // This variable affects the `.h-*` and `.w-*` classes.
 $sizes: () !default;
@@ -691,7 +694,7 @@ $dropdown-header-color:             $gray-600 !default;
 // of components dependent on the z-axis and are designed to all work together.
 
 $zindex-dropdown:                   1000 !default;
-$zindex-sticky:                     1020 !default;
+$zindex-sticky:                     999;//1020 !default; 
 $zindex-fixed:                      1030 !default;
 $zindex-modal-backdrop:             1040 !default;
 $zindex-modal:                      1050 !default;
